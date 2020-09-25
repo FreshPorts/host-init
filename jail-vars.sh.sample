@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# which zpool do the jails live in
+jailzpool=zroot
+
+# what FreeBSD version are we grabbing
+VERSION=12.1
+
+# the mountpoint for all jails
+jailroot=/jails
+
+# which zpool do the freebsd releases live in?
+freebsdzpool=zroot
+
+# where do I mount the freebsd releases?
+freebsdreleases=/var/db/mkjail
