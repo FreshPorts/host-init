@@ -1,6 +1,6 @@
 #!/bin/sh -x
 
-. /usr/local/bin/jails/jail-vars.sh
+. /usr/local/etc/host-init/jail-vars.sh
 
 jexec ingress01 zfs set canmount=on ${freebsdzpool}/freshports/ingress01/cache
 jexec ingress01 zfs set canmount=on ${freebsdzpool}/freshports/ingress01/cache/html

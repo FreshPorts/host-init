@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /usr/local/bin/jails/jail-vars.sh
+. /usr/local/etc/host-init/jail-vars.sh
 
 # create the jails top level dataset
 zfs create -o mountpoint=${jailroot} ${jailzpool}/jails

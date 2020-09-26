@@ -1,6 +1,6 @@
 #!/bin/sh -x
 
-. /usr/local/bin/jails/jail-vars.sh
+. /usr/local/etc/host-init/jail-vars.sh
 
 # allow freshports to rollback
 
