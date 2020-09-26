@@ -10,6 +10,8 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
     cp jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
     sudo ./01-jail-fileset-initialize.sh
     # this configures the jail for use by ansible
+    sudo ./03-create-jails.sh
+    sudo ./04-start-jails.sh
     sudo ./05-prepare-jails-for-ansible.sh
     sudo ./07-post-jail-creation-configuration-ingress.sh
     sudo ./08-post-jail-creation-configuration-nginx.sh
