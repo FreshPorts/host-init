@@ -2,13 +2,11 @@
 
 . /usr/local/etc/host-init/jail-vars.sh
 
-jexec ingress01 zfs set canmount=on ${freebsdzpool}/freshports/ingress01/cache
 jexec ingress01 zfs set canmount=on ${freebsdzpool}/freshports/ingress01/cache/html
 
 jexec ingress01 zfs set mountpoint=/var/db/freshports/cache ${freebsdzpool}/freshports/ingress01/cache
 jexec ingress01 zfs inherit mountpoint ${freebsdzpool}/freshports/ingress01/cache/html
 
-jexec ingress01 zfs mount ${freebsdzpool}/freshports/ingress01/cache
 jexec ingress01 zfs mount ${freebsdzpool}/freshports/ingress01/cache/html
 
 # we need www on the ingress side so we have the correct permissions on the webserver
