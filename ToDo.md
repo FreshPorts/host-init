@@ -2,6 +2,6 @@
 
 * webserver jail - SSL certificates - both freshports.org and freshports.net
 * install xtail
-* php-fpm configuration file
 * outgoing mail
 * convert system emails to reports in files
+* where does jail.conf live for maintanence.?
