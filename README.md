@@ -13,5 +13,14 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
     sudo ./03-create-jails.sh
     sudo ./04-start-jails.sh
     sudo ./05-prepare-jails-for-ansible.sh
+
+    # run the ansible scripts. The following scripts depend upon users
+    # created by that process
+    #
+    # ansible-playbook freshports-scripts.yml --limit=aws-1.freshports-ingress01
+    # ansible-playbook freshports-modules.yml --limit=aws-1.freshports-ingress01
+    #
+    # ansible-playbook freshports-website.yml --limit=aws-1.freshports-nginx01
+    # 
     sudo ./07-post-jail-creation-configuration-ingress.sh
     sudo ./08-post-jail-creation-configuration-nginx.sh
