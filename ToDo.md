@@ -4,3 +4,4 @@
 * install xtail
 * php-fpm configuration file
 * outgoing mail
+* convert system emails to reports in files
