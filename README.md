@@ -23,13 +23,14 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
     # ansible-playbook freshports-website.yml --limit=aws-1.freshports-nginx01
     # ansible-playbook freshports-website-configuration.yml --limit=aws-1.freshports-nginx01
     # 
-    sudo ./07-post-jail-creation-configuration-ingress.sh
-    sudo ./08-post-jail-creation-configuration-nginx.sh
 
     sudo service jail stop
 
     # amend /etc/jail.conf and uncomment things which say AFTER CONFIG
 
     sudo service jail start
+
+    sudo ./07-post-jail-creation-configuration-ingress.sh
+    sudo ./08-post-jail-creation-configuration-nginx.sh
 
     # This FreshPorts instance should now be running
