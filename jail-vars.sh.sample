@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# path to mkjail script
+# as obtained from https://github.com/mkjail/mkjail
+mkjail_path="/home/dvl/src/mkjail"
+
 # which zpool do the jails live in
 jailzpool=zroot
 

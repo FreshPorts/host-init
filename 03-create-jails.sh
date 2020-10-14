@@ -5,7 +5,7 @@ JAILS="ingress01 nginx01"
 for jail in ${JAILS}
 do
   echo creatig $jail
-  cd /usr/home/ec2-user/src/mkjail
+  cd $mkjail_path
   ./src/bin/mkjail create -v 12.1-RELEASE -j ${jail} -f default
 done
 
