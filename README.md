@@ -4,13 +4,20 @@ This directory contains scripts to get a FreshPorts system off the ground.
 
 It uses [mkjail](https://github.com/mkjail/mkjail)
 
+    mkdir ~/src
+    cd ~/src
     git clone https://github.com/FreshPorts/host-init
     cd host-init
-    mkdir /usr/local/etc/host-init
-    cp jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
+    sudo mkdir /usr/local/etc/host-init
+    sudo cp jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
     sudo ./01-jail-fileset-initialize.sh
     # this configures the jail for use by ansible
     sudo ./03-create-jails.sh
+
+    sudo sysrc jail_enable="YES"
+    sudo cp sudo sysrc jail_enable="YES"
+    sudo cp -i jail.conf /etc/jail.conf
+
     sudo ./04-start-jails.sh
     sudo ./05-prepare-jails-for-ansible.sh
 
