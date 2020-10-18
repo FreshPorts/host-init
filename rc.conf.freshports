@@ -1,0 +1,16 @@
+# Configuration items for FreshPorts
+
+jail_enable="YES"
+
+cloned_interfaces="lo1"
+
+ifconfig_lo1_aliases="inet  127.163.0.53/32
+                      inet  127.163.0.10/32
+                      inet  127.163.0.25/32
+                      inet  127.163.54.32/32
+                      inet  127.163.0.80/32
+                      inet6 fd00::80 prefixlen 64"
+gateway_enable="YES"
+ipv6_gateway_enable="YES"
+
+pf_enable="YES"

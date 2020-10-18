@@ -9,7 +9,14 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
     git clone https://github.com/FreshPorts/host-init
     cd host-init
     sudo mkdir /usr/local/etc/host-init
-    sudo cp jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
+    sudo cp -i jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
+    sudo cp -i rc.conf.freshports /etc/
+
+    # Add this line or something similar to /etc/rc.conf so the above copied
+    # file is invoked at startup.
+    #
+    # rc_conf_files="${rc_conf_files} /etc/rc.conf.freshports"
+
     sudo ./01-jail-fileset-initialize.sh
     # this configures the jail for use by ansible
     sudo ./03-create-jails.sh
