@@ -15,7 +15,6 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
     sudo ./03-create-jails.sh
 
     sudo sysrc jail_enable="YES"
-    sudo cp sudo sysrc jail_enable="YES"
     sudo cp -i jail.conf /etc/jail.conf
 
     sudo ./04-start-jails.sh
