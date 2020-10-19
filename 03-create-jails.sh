@@ -1,11 +1,11 @@
 #!/bin/sh
+
 . /usr/local/etc/host-init/jail-vars.sh
 
-JAILS="ingress01 nginx01"
-for jail in ${JAILS}
-do
-  echo creatig $jail
-  cd $mkjail_path
-  ./src/bin/mkjail create -v 12.1-RELEASE -j ${jail} -f default
-done
+cd $mkjail_path
 
+echo creating ingress01
+./src/bin/mkjail create -v 12.1-RELEASE -j ingress01 -f ingreee
+
+echo creating nginx01
+./src/bin/mkjail create -v 12.1-RELEASE -j nginx01 -f nginx

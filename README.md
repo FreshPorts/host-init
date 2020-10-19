@@ -27,6 +27,9 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
     sudo ./04-start-jails.sh
     sudo ./05-prepare-jails-for-ansible.sh
 
+    # if you haven't already, do the Ansible configuration outlines in
+    # [Ansible.md](Ansible.md)
+
     # run the ansible scripts. The following scripts depend upon users
     # created by that process
     #
