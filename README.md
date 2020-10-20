@@ -4,6 +4,16 @@ This directory contains scripts to get a FreshPorts system off the ground.
 
 It uses [mkjail](https://github.com/mkjail/mkjail)
 
+## Before running the scripts
+
+* create the certs
+* copy .crt and .key files to
+* name them after the host which will be used to access this FreshPorts host
+
+## The scripts
+
+These are the scripts to run after the above.
+
     mkdir ~/src
     cd ~/src
     git clone https://github.com/FreshPorts/host-init
@@ -33,11 +43,15 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
     # run the ansible scripts. The following scripts depend upon users
     # created by that process
     #
+
+    # For ingress hosts:
     # ansible-playbook freshports-scripts.yml --limit=aws-1.freshports-ingress01
     # ansible-playbook freshports-modules.yml --limit=aws-1.freshports-ingress01
     #
+
+    # For nginx hosts:
     # ansible-playbook freshports-website.yml --limit=aws-1.freshports-nginx01
-    # ansible-playbook freshports-website-configuration.yml --limit=aws-1.freshports-nginx01
+    # ansible-playbook freshports-configuration-website.yml --limit=aws-1.freshports-nginx01
     # 
 
     sudo service jail stop

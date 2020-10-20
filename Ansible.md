@@ -32,11 +32,28 @@ add `r720-02-nginx01` to these hostgroups in the `hosts` file:
 
 ## New(?) hostgroup
 
-Create (if required) a new hostgroup (note all hyphens must be converted to underscrores):
+Create (if required) a new hostgroup (note all hyphens and periods must be converted to underscrores):
 
 
-    [r720_02.int.unixathome.org_jails]
+    [r720_02_int_unixathome.org_jails]
     r720-02-freshports-nginx01
+
+## Add this to group_vars
+
+Based on the group name used above, create this file:
+
+    cd group_vars
+    svn cp TEMPLATE_freshports_host r720_02_int_unixathome.org_jails
+
+Amend the values accordingly.
+
+
+# usually an IP address
+fp_email_server:      '127.1.0.202'
+
+fp_system_owner_email: '{{ admin_email }}'
+
+
 
 
 ## Certificates
