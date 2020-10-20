@@ -36,6 +36,7 @@ These are the scripts to run after the above.
 
     sudo ./04-start-jails.sh
     sudo ./05-prepare-jails-for-ansible.sh
+    sudo ./06-install-local-files.sh
 
     # if you haven't already, do the Ansible configuration outlines in
     # [Ansible.md](Ansible.md)
