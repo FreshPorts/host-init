@@ -41,6 +41,12 @@ These are the scripts to run after the above.
     # if you haven't already, do the Ansible configuration outlines in
     # [Ansible.md](Ansible.md)
 
+    #
+    # use pg_hba.conf file as a template for additiions to the
+    # pg_hba.conf file on the PostgreSQL server.
+    # Look in roles/postgresql-server/templates/hosts/SERVERNAME/pg_hba.conf.j2
+    #
+
     # run the ansible scripts. The following scripts depend upon users
     # created by that process
     #
