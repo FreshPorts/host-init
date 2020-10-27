@@ -22,6 +22,11 @@ These are the scripts to run after the above.
     sudo cp -i jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
     sudo cp -i rc.conf.freshports /etc/
 
+    cd ~/src/mkjail/src/etc
+    sudo ln -s /usr/local/etc/host-init/jail-vars.sh mkjail.conf
+
+    cd ~/src/host-init
+
     # Add this line or something similar to /etc/rc.conf so the above copied
     # file is invoked at startup.
     #
