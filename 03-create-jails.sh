@@ -5,7 +5,7 @@
 cd $mkjail_path
 
 echo creating ingress01
-./src/bin/mkjail create -v 12.1-RELEASE -j ingress01 -f ingreee
+./src/bin/mkjail create -v 12.1-RELEASE -j ingress01 -f ingress
 
 echo creating nginx01
 ./src/bin/mkjail create -v 12.1-RELEASE -j nginx01 -f nginx
