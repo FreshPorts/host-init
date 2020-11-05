@@ -18,6 +18,7 @@ zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/cache
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/cache/html
+zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/repos
 
 zfs snapshot ${freebsdzpool}/freshports/ingress01/cache/html@empty
 

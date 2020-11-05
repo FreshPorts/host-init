@@ -1,0 +1,23 @@
+#!/bin/sh -x
+
+. /usr/local/etc/host-init/jail-vars.sh
+
+# this is where we mount the repo
+# why externally mounted and not internal?
+# I don't know. No realy reason.
+
+# set the mountpoint in the jail
+zfs set mountpoint=${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ${freebsdzpool}/freshports/ingress01/repos
+
+# check out head if it does not already exist
+if [ ! -d "${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos/PORTS-head" ]
+then
+  echo directory does not exist
+  cd ${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos
+  svn co svn://svn.freebsd.org/ports/head PORTS-head
+else
+  echo PORTS-head already exists
+fi
+
+# Fix ownerships
+jexec ingress01 chown -R freshports /var/db/freshports/ports-jail/var/db/repos

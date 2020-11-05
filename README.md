@@ -7,7 +7,6 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
 ## Before running the scripts
 
 * create the certs
-* copy .crt and .key files to
 * name them after the host which will be used to access this FreshPorts host
 
 ## The scripts
@@ -40,11 +39,24 @@ These are the scripts to run after the above.
     sudo cp -i jail.conf /etc/jail.conf
 
     sudo ./04-start-jails.sh
+
+    sudo jexec nginx01
+    cd /usr/local/etc/ssl
+    CERTNAME=r720-02.freshports.org
+    touch ${CERTNAME}.key
+    chmod 440 ${CERTNAME}.key
+    chown root:www ${CERTNAME}.key
+    # copy the cert key into that file
+
     sudo ./05-prepare-jails-for-ansible.sh
     sudo ./06-install-local-files.sh
 
     # if you haven't already, do the Ansible configuration outlines in
     # [Ansible.md](Ansible.md)
+
+    # Then run:
+
+    ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
 
     #
     # use pg_hba.conf file as a template for additiions to the
@@ -72,7 +84,9 @@ These are the scripts to run after the above.
 
     sudo service jail start
 
-    sudo ./07-post-jail-creation-configuration-ingress.sh
-    sudo ./08-post-jail-creation-configuration-nginx.sh
+    sudo ./07-mount-external-datasets
+
+    sudo ./08-post-jail-creation-configuration-ingress.sh
+    sudo ./09-post-jail-creation-configuration-nginx.sh
 
     # This FreshPorts instance should now be running

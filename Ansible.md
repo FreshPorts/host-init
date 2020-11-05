@@ -14,13 +14,22 @@ NOTE: the jail can be named anything you want. r720-02-nginx01 is used only by
       hostname 127.163.0.80
       ForwardAgent yes
 
+    host r720-02-freshports-ingress01
+      user minion
+      ProxyJump minion@r720-02.int.unixathome.org
+      hostname 127.163.0.10
+      ForwardAgent yes
+
+
 ## Copy this template
 
-    svn cp TEMPLATE-freshports-nginx r720-02-freshports-nginx01
+    svn cp TEMPLATE-freshports-nginx   r720-02-freshports-nginx01
+    svn cp TEMPLATE-freshports-ingress r720-02-freshports-ingress01
 
-Adjust value contained therein
+Adjust values contained therein
 
-## `hosts` file
+
+## hosts file
 
 add `r720-02-nginx01` to these hostgroups in the `hosts` file:
 
@@ -30,13 +39,21 @@ add `r720-02-nginx01` to these hostgroups in the `hosts` file:
 * `freshports_websites`
 * `freshports_modules`
 
+add `r720-02-ingress01` to these hostgroups in the `hosts` file:
+
+* `logcheck`
+* `nrpe`
+* `freshports_scripts`
+
+
 ## New(?) hostgroup
 
 Create (if required) a new hostgroup (note all hyphens and periods must be converted to underscrores):
 
 
-    [r720_02_int_unixathome.org_jails]
+    [r720_02_int_unixathome_org_jails]
     r720-02-freshports-nginx01
+    r720-02-freshports-ingress01
 
 ## Add this to group_vars
 
