@@ -69,9 +69,8 @@ These are the scripts to run after the above.
     #
 
     # For ingress hosts:
-    # ansible-playbook freshports-scripts.yml --limit=aws-1.freshports-ingress01
-    # ansible-playbook freshports-modules.yml --limit=aws-1.freshports-ingress01
-    #
+    # ansible-playbook freshports-ingress.yml --limit=aws-1.freshports-ingress01
+    # ansible-playbook freshports-configuration-ingress.yml --limit=aws-1.freshports-ingress01
 
     # For nginx hosts:
     # ansible-playbook freshports-website.yml --limit=aws-1.freshports-nginx01
@@ -85,8 +84,10 @@ These are the scripts to run after the above.
     sudo service jail start
 
     sudo ./07-mount-external-datasets
+    sudo ./08-newsyslog.conf
 
-    sudo ./08-post-jail-creation-configuration-ingress.sh
-    sudo ./09-post-jail-creation-configuration-nginx.sh
+
+    sudo ./18-post-jail-creation-configuration-ingress.sh
+    sudo ./19-post-jail-creation-configuration-nginx.sh
 
     # This FreshPorts instance should now be running
