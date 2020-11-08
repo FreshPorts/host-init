@@ -9,6 +9,14 @@
 # set the mountpoint in the jail
 zfs set mountpoint=${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ${freebsdzpool}/freshports/ingress01/repos
 
+zfs mount ${freebsdzpool}/freshports/ingress01/repos
+
+if [ ! -d ${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ]
+then
+  echo ${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos does not exist
+  exit 12
+fi
+
 # check out head if it does not already exist
 if [ ! -d "${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos/PORTS-head" ]
 then
