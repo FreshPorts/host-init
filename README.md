@@ -40,21 +40,13 @@ These are the scripts to run after the above.
 
     sudo ./04-start-jails.sh
 
-    sudo jexec nginx01
-    cd /usr/local/etc/ssl
-    CERTNAME=r720-02.freshports.org
-    touch ${CERTNAME}.key
-    chmod 440 ${CERTNAME}.key
-    chown root:www ${CERTNAME}.key
-    # copy the cert key into that file
-
     sudo ./05-prepare-jails-for-ansible.sh
     sudo ./06-install-local-files.sh
 
     # if you haven't already, do the Ansible configuration outlines in
     # [Ansible.md](Ansible.md)
 
-    # Then run:
+    # Switch over to the ansible host and run:
 
     ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
 
@@ -69,12 +61,12 @@ These are the scripts to run after the above.
     #
 
     # For ingress hosts:
-    # ansible-playbook freshports-ingress.yml --limit=aws-1.freshports-ingress01
-    # ansible-playbook freshports-configuration-ingress.yml --limit=aws-1.freshports-ingress01
+    # ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
+    # ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
 
     # For nginx hosts:
-    # ansible-playbook freshports-website.yml --limit=aws-1.freshports-nginx01
-    # ansible-playbook freshports-configuration-website.yml --limit=aws-1.freshports-nginx01
+    # ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
+    # ansible-playbook freshports-configuration-website.yml --limit=r720-02-freshports-nginx01
     # 
 
     sudo service jail stop
@@ -82,6 +74,22 @@ These are the scripts to run after the above.
     # amend /etc/jail.conf and uncomment things which say AFTER CONFIG
 
     sudo service jail start
+
+    sudo jexec nginx01
+    mkdir /usr/local/etc/ssl
+    cd /usr/local/etc/ssl
+    set CERTNAME=r720-02.freshports.org
+    touch ${CERTNAME}.key
+    chmod 440 ${CERTNAME}.key
+    chown root:www ${CERTNAME}.key
+
+    # copy the cert key into that file
+
+    # then leave the jail
+    exit
+
+    # pull in the cert for that key above
+    sudo jexec -U anvil nginx01 /usr/local/bin/cert-puller
 
     sudo ./07-mount-external-datasets
     sudo ./08-newsyslog.conf
