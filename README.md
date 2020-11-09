@@ -61,19 +61,8 @@ These are the scripts to run after the above.
     #
 
     # For ingress hosts:
+
     # ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
-    # ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
-
-    # For nginx hosts:
-    # ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
-    # ansible-playbook freshports-configuration-website.yml --limit=r720-02-freshports-nginx01
-    # 
-
-    sudo service jail stop
-
-    # amend /etc/jail.conf and uncomment things which say AFTER CONFIG
-
-    sudo service jail start
 
     #
     # key for the ingress jail
@@ -94,6 +83,12 @@ These are the scripts to run after the above.
     # pull in the cert for that key above
     sudo jexec -U anvil ingress01 /usr/local/bin/cert-puller
 
+    # ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
+
+
+    # For nginx hosts:
+    # ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
+
     #
     # key for the nginx jail
     #
@@ -113,24 +108,15 @@ These are the scripts to run after the above.
     # pull in the cert for that key above
     sudo jexec -U anvil nginx01 /usr/local/bin/cert-puller
 
-    #
-    # key for the ingress jail
-    #
-    sudo jexec ingress01
-    mkdir /usr/local/etc/ssl
-    cd /usr/local/etc/ssl
-    set CERTNAME=r720-02.freshports.org
-    touch ${CERTNAME}.key
-    chmod 440 ${CERTNAME}.key
-    chown root:www ${CERTNAME}.key
 
-    # copy the cert key into that file
+    # ansible-playbook freshports-configuration-website.yml --limit=r720-02-freshports-nginx01
+    # 
 
-    # then leave the jail
-    exit
+    sudo service jail stop
 
-    # pull in the cert for that key above
-    sudo jexec -U anvil ingress01 /usr/local/bin/cert-puller
+    # amend /etc/jail.conf and uncomment things which say AFTER CONFIG
+
+    sudo service jail start
 
     sudo ./07-mount-external-datasets
     sudo ./08-newsyslog.conf
