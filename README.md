@@ -22,7 +22,7 @@ These are the scripts to run after the above.
     sudo cp -i rc.conf.freshports /etc/
 
     cd ~/src/mkjail/src/etc
-    sudo ln -s /usr/local/etc/host-init/jail-vars.sh mkjail.conf
+    ln -s ~/src/host-init/mkjail.conf .
 
     cd ~/src/host-init
 
@@ -35,7 +35,6 @@ These are the scripts to run after the above.
     # this configures the jail for use by ansible
     sudo ./03-create-jails.sh
 
-    sudo sysrc jail_enable="YES"
     sudo cp -i jail.conf /etc/jail.conf
 
     sudo ./04-start-jails.sh
