@@ -48,7 +48,10 @@ These are the scripts to run after the above.
 
     # Switch over to the ansible host and run:
 
-    ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
+
+    # For postgresql hosts:
+    #
+    # ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
 
     #
     # use pg_hba.conf file as a template for additiions to the
@@ -73,6 +76,7 @@ These are the scripts to run after the above.
     set CERTNAME=r720-02-ingress01.int.unixathome.org
     touch ${CERTNAME}.key
     chmod 400 ${CERTNAME}.key
+
 
     # copy the cert key into that file
 
