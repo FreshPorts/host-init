@@ -2,6 +2,11 @@
 
 . /usr/local/etc/host-init/jail-vars.sh
 
+#
+# This script creates filesystems which would not be created by the mkjail scripts
+# but are required by the jails which will be created.
+#
+
 # create the jails top level dataset
 zfs create -o mountpoint=${jailroot} ${jailzpool}/jails
 
@@ -18,7 +23,9 @@ zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/cache
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/cache/html
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/repos
+
+# this one is noauto because it gets mounted/umounted by jail.conf
+zfs create -o canmount=noauto -o mountpoint=none ${freebsdzpool}/freshports/ingress01/repos
 
 zfs snapshot ${freebsdzpool}/freshports/ingress01/cache/html@empty
 
