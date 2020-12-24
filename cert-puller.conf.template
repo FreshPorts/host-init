@@ -1,0 +1,5 @@
+CERT_SERVER="https://certs.unixathome.org/certs"
+MYCERTS="%%MYCERTS%%"
+%%SERVICES_RELOAD%%
+%%SERVICES_RESTART%%
+
