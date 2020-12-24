@@ -7,7 +7,8 @@
 # I don't know. No real reason.
 
 # set the mountpoint in the jail
-zfs set mountpoint=${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ${freebsdzpool}/freshports/ingress01/repos
+zfs set mountpoint=${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ${freebsdzpool}/freshports/ingress01/freshports/repos
+zfs set mountpoint=${jailroot}/ingress01/var/db/ingress/repos                      ${freebsdzpool}/freshports/ingress01/ingress/repos
 
 zfs mount ${freebsdzpool}/freshports/ingress01/repos
 
@@ -27,5 +28,3 @@ else
   echo PORTS-head already exists
 fi
 
-# Fix ownerships
-jexec ingress01 chown -R freshports /var/db/freshports/ports-jail/var/db/repos
