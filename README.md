@@ -138,11 +138,20 @@ These are the scripts to run after the above.
 
     # sudoedit /etc/jail.conf and uncomment things which say AFTER CONFIG
 
-    sudo service jail start
+    # this will mount the repos dir
+    # populate the repos:
+    #
+    # * ingress - git src, ports, doc, ports-quarterly
+    # * ingress_svn = ports
+    # * freshports - git ports, svn ports
+    #
 
     sudo ./07-mount-external-datasets
-    sudo ./08-newsyslog.conf
 
+    sudo service jail start
+
+    # the jails need to be started for this one
+    sudo ./08-newsyslog.conf
 
     sudo ./18-post-jail-creation-configuration-ingress.sh
     sudo ./19-post-jail-creation-configuration-nginx.sh
