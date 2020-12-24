@@ -1,0 +1,6 @@
+#!/bin/sh -x
+
+. /usr/local/etc/host-init/jail-vars.sh
+
+cp unbound.conf /usr/local/etc/unbound/unbound.conf
+service unbound start

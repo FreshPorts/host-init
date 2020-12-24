@@ -6,12 +6,21 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
 
 ## Before running the scripts
 
+* add the A and PTR records for the new hosts
+* add the grant permissions for TXT records for Let's Encrypt
 * create the certs
 * name them after the host which will be used to access this FreshPorts host
 
 ## The scripts
 
+These are the configuration items for the scripts below:
+
+export INGRESS_CERTNAME=r720-02-ingress01.int.unixathome.org
+export NGINX_CERTNAME=aws-1.freshports.org
+export MXINGRESS_CERTNAME=mx-ingress04.freshports.org
+
 These are the scripts to run after the above.
+
 
     mkdir ~/src
     cd ~/src
@@ -32,6 +41,10 @@ These are the scripts to run after the above.
     # rc_conf_files="${rc_conf_files} /etc/rc.conf.freshports"
 
     sudo ./01-jail-fileset-initialize.sh
+
+    # start stuff on the host which are needed by the jails
+    # eg. unbound
+    sudo ./02-start-required-services
 
     # This creates the jails which will be later configured by Ansible
     sudo ./03-create-jails.sh
@@ -70,18 +83,13 @@ These are the scripts to run after the above.
     #
     # key for the ingress jail
     #
-    sudo jexec ingress01
-    mkdir /usr/local/etc/ssl
-    cd /usr/local/etc/ssl
-    set CERTNAME=r720-02-ingress01.int.unixathome.org
-    touch ${CERTNAME}.key
-    chmod 400 ${CERTNAME}.key
-
+    sudo jexec nginx01 mkdir /usr/local/etc/ssl
+    sudo jexec nginx01 touch /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+    sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+    sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
 
     # copy the cert key into that file
-
-    # then leave the jail
-    exit
+    sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
 
     # pull in the cert for that key above
     sudo jexec -U anvil ingress01 /usr/local/bin/cert-puller
@@ -95,18 +103,13 @@ These are the scripts to run after the above.
     #
     # key for the nginx jail
     #
-    sudo jexec nginx01
-    mkdir /usr/local/etc/ssl
-    cd /usr/local/etc/ssl
-    set CERTNAME=r720-02.freshports.org
-    touch ${CERTNAME}.key
-    chmod 440 ${CERTNAME}.key
-    chown root:www ${CERTNAME}.key
+    sudo jexec nginx01 mkdir /usr/local/etc/ssl
+    sudo jexec nginx01 touch /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+    sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+    sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${NGINX_CERTNAME}.key
 
     # copy the cert key into that file
-
-    # then leave the jail
-    exit
+    sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${NGINX_CERTNAME}.key
 
     # pull in the cert for that key above
     sudo jexec -U anvil nginx01 /usr/local/bin/cert-puller
@@ -120,26 +123,20 @@ These are the scripts to run after the above.
     #
     # key for the mx jail
     #
-    sudo jexec mx-ingress04
-    mkdir /usr/local/etc/ssl
-    cd /usr/local/etc/ssl
-    set CERTNAME=r720-02-mx-ingress04.int.unixathome.org.
-    touch ${CERTNAME}.key
-    chmod 400 ${CERTNAME}.key
+    sudo jexec mx-ingress04 mkdir /usr/local/etc/ssl
+    sudo jexec mx-ingress04 touch /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
+    sudo jexec mx-ingress04 chmod 440 /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
+    sudo jexec mx-ingress04 chown root:www /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
 
     # copy the cert key into that file
-
-    # then leave the jail
-    exit
+    sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
 
     # pull in the cert for that key above
     sudo jexec -U anvil mx-ingress04 /usr/local/bin/cert-puller
 
-
-
     sudo service jail stop
 
-    # amend /etc/jail.conf and uncomment things which say AFTER CONFIG
+    # sudoedit /etc/jail.conf and uncomment things which say AFTER CONFIG
 
     sudo service jail start
 
