@@ -24,8 +24,10 @@ zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/cache
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/cache/html
 
-# this one is noauto because it gets mounted/umounted by jail.conf
-zfs create -o canmount=noauto -o mountpoint=none ${freebsdzpool}/freshports/ingress01/repos
+# these is noauto because it gets mounted/umounted by jail.conf
+# -p because the parents will not exist
+zfs create -po canmount=noauto -o mountpoint=none ${freebsdzpool}/freshports/ingress01/ingress/repos
+zfs create -po canmount=noauto -o mountpoint=none ${freebsdzpool}/freshports/ingress01/freshports/repos
 
 zfs snapshot ${freebsdzpool}/freshports/ingress01/cache/html@empty
 
