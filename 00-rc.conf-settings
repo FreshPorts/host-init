@@ -1,0 +1,14 @@
+#!/bin/sh
+
+. /usr/local/etc/host-init/jail-vars.sh
+
+# Configuration items for FreshPorts
+
+sysrc jail_enable="YES"
+
+sysrc cloned_interfaces="${cloned_interfaces} lo1"
+
+sysrc gateway_enable="YES"
+sysrc ipv6_gateway_enable="YES"
+
+sysrc pf_enable="YES"

@@ -28,18 +28,13 @@ These are the scripts to run after the above.
     cd host-init
     sudo mkdir /usr/local/etc/host-init
     sudo cp -i jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
-    sudo cp -i rc.conf.freshports /etc/
 
     cd ~/src/mkjail/src/etc
     ln -s ~/src/host-init/mkjail.conf .
 
     cd ~/src/host-init
 
-    # Add this line or something similar to /etc/rc.conf so the above copied
-    # file is invoked at startup.
-    #
-    # rc_conf_files="${rc_conf_files} /etc/rc.conf.freshports"
-
+    sudo ./00-rc.conf-settings
     sudo ./01-jail-fileset-initialize.sh
 
     # start stuff on the host which are needed by the jails
