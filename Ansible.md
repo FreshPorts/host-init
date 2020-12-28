@@ -2,8 +2,10 @@
 
 ## Ansible configuration:
 
-Assuming you are configuring r720-02-nginx01, a jail on r720-02.int.unixathome.org
-NOTE: the jail can be named anything you want. r720-02-nginx01 is used only by 
+Assuming you are configuring `r720-02-nginx01`, a jail on
+`r720-02.int.unixathome.org`
+
+NOTE: the jail can be named anything you want. `r720-02-nginx01` is used only by 
       Ansible.
 
 ## Add this to ~/.ssh/config
