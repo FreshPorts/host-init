@@ -23,8 +23,9 @@ NOTE: the jail can be named anything you want. r720-02-nginx01 is used only by
 
 ## Copy this template
 
-    svn cp TEMPLATE-freshports-nginx   r720-02-freshports-nginx01
-    svn cp TEMPLATE-freshports-ingress r720-02-freshports-ingress01
+    svn cp TEMPLATE-freshports-nginx      r720-02-freshports-nginx01
+    svn cp TEMPLATE-freshports-ingress    r720-02-freshports-ingress01
+    svn cp TEMPLATE-freshports-mx-ingress r720-02-freshports-mx-ingress01
 
 Adjust values contained therein
 
@@ -35,25 +36,30 @@ add `r720-02-nginx01` to these hostgroups in the `hosts` file:
 
 * `logcheck`
 * `nrpe`
-* `freshports_websites_new`
 * `freshports_websites`
-* `freshports_modules`
+* `freshports_websites_new`
+* `freshports_modules`  **** This may not be required
 
 add `r720-02-ingress01` to these hostgroups in the `hosts` file:
 
 * `logcheck`
 * `nrpe`
+* `freshports_ingress`
+* `freshports_ingress_new`
+* `freshports_modules`
 * `freshports_scripts`
 
 
-## New(?) hostgroup
+## New hostgroup for jails on the host
 
-Create (if required) a new hostgroup (note all hyphens and periods must be converted to underscrores):
+Create (if required) a new hostgroup (note all hyphens and periods must be converted to underscrores
+in the group name):
 
 
     [r720_02_int_unixathome_org_jails]
     r720-02-freshports-nginx01
     r720-02-freshports-ingress01
+    r720-02-freshports-mx-ingress01
 
 ## Add this to group_vars
 
@@ -66,9 +72,10 @@ Amend the values accordingly.
 
 
 # usually an IP address
-fp_email_server:      '127.1.0.202'
 
-fp_system_owner_email: '{{ admin_email }}'
+    fp_email_server:      '127.1.0.202'
+
+    fp_system_owner_email: '{{ admin_email }}'
 
 
 
