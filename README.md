@@ -16,28 +16,28 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
 
 These are the configuration items for the scripts below:
 
-export INGRESS_CERTNAME=r720-02-ingress01.int.unixathome.org
-export NGINX_CERTNAME=aws-1.freshports.org
-export MXINGRESS_CERTNAME=mx-ingress04.freshports.org
+    export INGRESS_CERTNAME=r720-02-ingress01.int.unixathome.org
+    export NGINX_CERTNAME=aws-1.freshports.org
+    export MXINGRESS_CERTNAME=mx-ingress04.freshports.org
 
 These are the scripts to run after the above.
 
 1.  Configure the host itself by running this Ansible script. This will
 install the prerequisite packages such as git, unbound, ntpd, etc.
 
-    ansible-playbook freshports-host.yml --limit=aws-1.freshports.org
+        ansible-playbook freshports-host.yml --limit=aws-1.freshports.org
 
 1.  Get the `host-init` scripts
     
-    mkdir ~/src
-    cd ~/src
-    git clone https://github.com/FreshPorts/host-init
-    cd host-init
-    sudo mkdir /usr/local/etc/host-init
-    sudo cp -i jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
+        mkdir ~/src
+        cd ~/src
+        git clone https://github.com/FreshPorts/host-init
+        cd host-init
+        sudo mkdir /usr/local/etc/host-init
+        sudo cp -i jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
 
-    cd ~/src/mkjail/src/etc
-    ln -s ~/src/host-init/mkjail.conf .
+        cd ~/src/mkjail/src/etc
+        ln -s ~/src/host-init/mkjail.conf .
 
 1.  Start runnig the configuration scripts
 
