@@ -106,7 +106,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 
   1.  For nginx hosts:
-     ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
+
+    ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
 
     #
     # key for the nginx jail
@@ -126,6 +127,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
     #
 
   1. for the mx-ingress jail
+
     ansible-playbook freshports-mx-ingress-mailserver.yml --limit=r720-02-freshports-mx-ingress04
 
     #
@@ -144,32 +146,34 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1. Now that the jails have been configured, we can mount all the filesystems
 
-    sudo service jail stop
+        sudo service jail stop
 
-    # sudoedit /etc/jail.conf and uncomment things which say AFTER CONFIG
+        # sudoedit /etc/jail.conf and uncomment things which say AFTER CONFIG
 
-    # this will mount the repos dir
-    # populate the repos:
-    #
-    # * ingress - git src, ports, doc, ports-quarterly
-    # * ingress_svn = ports
-    # * freshports - git ports, svn ports
-    #
+        # this will mount the repos dir
+        # populate the repos:
+        #
+        # * ingress - git src, ports, doc, ports-quarterly
+        # * ingress_svn = ports
+        # * freshports - git ports, svn ports
+        #
 
 1.  Mount the previously unmounted filesystems
+
     sudo ./07-mount-external-datasets
 
 1.  Start the jails again
+
     sudo service jail start
 
 1.  Remember to rotat log files
 
-    # the jails need to be started for this one
-    sudo ./08-newsyslog.conf
+        # the jails need to be started for this one
+        sudo ./08-newsyslog.conf
 
 1.  Some post configuration
 
-    sudo ./18-post-jail-creation-configuration-ingress.sh
-    sudo ./19-post-jail-creation-configuration-nginx.sh
+        sudo ./18-post-jail-creation-configuration-ingress.sh
+        sudo ./19-post-jail-creation-configuration-nginx.sh
 
-    # This FreshPorts instance should now be running
+This FreshPorts instance should now be running
