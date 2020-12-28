@@ -72,10 +72,10 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1. For postgresql hosts:
 
-    ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
+        ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
 
-    #
-    # use pg_hba.conf file as a template for additiions to the
+        #
+        # use pg_hba.conf file as a template for additiions to the
     # pg_hba.conf file on the PostgreSQL server.
     # Look in roles/postgresql-server/templates/hosts/SERVERNAME/pg_hba.conf.j2
     #
