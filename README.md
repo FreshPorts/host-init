@@ -17,7 +17,8 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
 These are the configuration items for the scripts below:
 
     export INGRESS_CERTNAME=r720-02-ingress01.int.unixathome.org
-    export NGINX_CERTNAME=aws-1.freshports.org
+    # this cert will also have names for freshports.org and www.freshports.org
+    export NGINX_CERTNAME=r720-02.freshports.org
     export MXINGRESS_CERTNAME=mx-ingress04.freshports.org
 
 These are the scripts to run after the above.
@@ -144,6 +145,10 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # pull in the cert for that key above
         sudo jexec -U anvil mx-ingress04 /usr/local/bin/cert-puller
 
+1. With the required packages installed, try fetching certs etc:
+
+        sudo ./06-install-local-files.sh
+
 1. Now that the jails have been configured, we can mount all the filesystems
 
         sudo service jail stop
@@ -157,7 +162,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # * ingress_svn = ports
         # * freshports - git ports, svn ports
         #
-
 1.  Mount the previously unmounted filesystems
 
         sudo ./07-mount-external-datasets
@@ -165,6 +169,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 1.  Start the jails again
 
         sudo service jail start
+
+
 
 1.  Remember to rotat log files
 
