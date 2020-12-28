@@ -70,7 +70,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 1.  Switch over to the ansible host and run some or all of these commands
 
 
-  1. For postgresql hosts:
+1. For postgresql hosts:
 
     ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
 
@@ -84,7 +84,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
     # created by that process
     #
 
-  1. For ingress hosts:
+1. For ingress hosts:
 
     ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
 
@@ -105,7 +105,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
     ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
 
 
-  1.  For nginx hosts:
+1.  For nginx hosts:
 
     ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
 
@@ -126,7 +126,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
     # ansible-playbook freshports-configuration-website.yml --limit=r720-02-freshports-nginx01
     #
 
-  1. for the mx-ingress jail
+1. for the mx-ingress jail
 
     ansible-playbook freshports-mx-ingress-mailserver.yml --limit=r720-02-freshports-mx-ingress04
 
