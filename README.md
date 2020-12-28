@@ -10,6 +10,7 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
 * add the grant permissions for TXT records for Let's Encrypt
 * create the certs
 * name them after the host which will be used to access this FreshPorts host
+* Follow the [Ansible.md](Ansible.md) instructions to prepare the hosts
 
 ## The scripts
 
@@ -21,7 +22,13 @@ export MXINGRESS_CERTNAME=mx-ingress04.freshports.org
 
 These are the scripts to run after the above.
 
+1.  Configure the host itself by running this Ansible script. This will
+install the prerequisite packages such as git, unbound, ntpd, etc.
 
+    ansible-playbook freshports-host.yml --limit=aws-1.freshports.org
+
+1.  Get the `host-init` scripts
+    
     mkdir ~/src
     cd ~/src
     git clone https://github.com/FreshPorts/host-init
@@ -32,6 +39,8 @@ These are the scripts to run after the above.
     cd ~/src/mkjail/src/etc
     ln -s ~/src/host-init/mkjail.conf .
 
+1.  Start runnig the configuration scripts
+
     cd ~/src/host-init
 
     sudo ./00-rc.conf-settings
@@ -41,25 +50,29 @@ These are the scripts to run after the above.
     # eg. unbound
     sudo ./02-start-required-services
 
+1.  Create the jails
+
     # This creates the jails which will be later configured by Ansible
     sudo ./03-create-jails.sh
 
     sudo cp -i jail.conf /etc/jail.conf
+
+1.  Start the jails and configure them for running Ansible
 
     sudo ./04-start-jails.sh
 
     sudo ./05-prepare-jails-for-ansible.sh
     sudo ./06-install-local-files.sh
 
-    # if you haven't already, do the Ansible configuration outlines in
+    # if you haven't already, do the Ansible configuration outlined in
     # [Ansible.md](Ansible.md)
 
-    # Switch over to the ansible host and run:
+1.  Switch over to the ansible host and run some or all of these commands
 
 
-    # For postgresql hosts:
+  1. For postgresql hosts:
     #
-    # ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
+    ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
 
     #
     # use pg_hba.conf file as a template for additiions to the
@@ -71,9 +84,9 @@ These are the scripts to run after the above.
     # created by that process
     #
 
-    # For ingress hosts:
+  1. For ingress hosts:
 
-    # ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
+    ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
 
     #
     # key for the ingress jail
@@ -89,11 +102,11 @@ These are the scripts to run after the above.
     # pull in the cert for that key above
     sudo jexec -U anvil ingress01 /usr/local/bin/cert-puller
 
-    # ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
+    ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
 
 
-    # For nginx hosts:
-    # ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
+  1.  For nginx hosts:
+     ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
 
     #
     # key for the nginx jail
@@ -112,7 +125,7 @@ These are the scripts to run after the above.
     # ansible-playbook freshports-configuration-website.yml --limit=r720-02-freshports-nginx01
     #
 
-    # for the mx-ingress jail
+  1. for the mx-ingress jail
     ansible-playbook freshports-mx-ingress-mailserver.yml --limit=r720-02-freshports-mx-ingress04
 
     #
@@ -129,6 +142,8 @@ These are the scripts to run after the above.
     # pull in the cert for that key above
     sudo jexec -U anvil mx-ingress04 /usr/local/bin/cert-puller
 
+1. Now that the jails have been configured, we can mount all the filesystems
+
     sudo service jail stop
 
     # sudoedit /etc/jail.conf and uncomment things which say AFTER CONFIG
@@ -141,12 +156,18 @@ These are the scripts to run after the above.
     # * freshports - git ports, svn ports
     #
 
+1.  Mount the previously unmounted filesystems
     sudo ./07-mount-external-datasets
 
+1.  Start the jails again
     sudo service jail start
+
+1.  Remember to rotat log files
 
     # the jails need to be started for this one
     sudo ./08-newsyslog.conf
+
+1.  Some post configuration
 
     sudo ./18-post-jail-creation-configuration-ingress.sh
     sudo ./19-post-jail-creation-configuration-nginx.sh
