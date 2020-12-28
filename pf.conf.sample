@@ -12,4 +12,4 @@ rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = https -> $FRESH
 rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = http  -> $FRESHPORTS_WWW_JAIL_IPV6
 rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = https -> $FRESHPORTS_WWW_JAIL_IPV6
 
-pass in all
+pass all
