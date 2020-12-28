@@ -16,9 +16,9 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
 
 These are the configuration items for the scripts below:
 
-    export INGRESS_CERTNAME=r720-02-ingress01.int.unixathome.org
+    export INGRESS_CERTNAME=aws-1-ingress01.freshports.org
     # this cert will also have names for freshports.org and www.freshports.org
-    export NGINX_CERTNAME=r720-02.freshports.org
+    export NGINX_CERTNAME=aws-1.freshports.org
     export MXINGRESS_CERTNAME=mx-ingress04.freshports.org
 
 These are the scripts to run after the above.
@@ -86,28 +86,28 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1. For ingress hosts:
 
-        ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
+        ansible-playbook freshports-ingress.yml --limit=aws-1.freshports-ingress01
 
         #
         # key for the ingress jail
         #
-        sudo jexec nginx01 mkdir /usr/local/etc/ssl
-        sudo jexec nginx01 touch /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
-        sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
-        sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        sudo jexec ingress01 mkdir /usr/local/etc/ssl
+        sudo jexec ingress01 touch /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        sudo jexec ingress01 chmod 440 /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        sudo jexec ingress01 chown root:www /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
 
         # copy the cert key into that file
-        sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        sudo jexec ingress01 sudoedit /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
 
         # pull in the cert for that key above
         sudo jexec -U anvil ingress01 /usr/local/bin/cert-puller
 
-        ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
+        ansible-playbook freshports-configuration-ingress.yml --limit=aws-1.freshports-ingress01
 
 
 1.  For nginx hosts:
 
-        ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
+        ansible-playbook freshports-website.yml --limit=aws-1.freshports-nginx01
 
         #
         # key for the nginx jail
@@ -118,17 +118,17 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${NGINX_CERTNAME}.key
 
         # copy the cert key into that file
-        sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+        sudo jexec nginx01 sudoedit /usr/local/etc/ssl/${NGINX_CERTNAME}.key
 
         # pull in the cert for that key above
         sudo jexec -U anvil nginx01 /usr/local/bin/cert-puller
 
-        # ansible-playbook freshports-configuration-website.yml --limit=r720-02-freshports-nginx01
+        # ansible-playbook freshports-configuration-website.yml --limit=aws-1.freshports-nginx01
         #
 
 1. for the mx-ingress jail
 
-        ansible-playbook freshports-mx-ingress-mailserver.yml --limit=r720-02-freshports-mx-ingress04
+        ansible-playbook freshports-mx-ingress-mailserver.yml --limit=aws-1.freshports-mx-ingress04
 
         #
         # key for the mx jail
