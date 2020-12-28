@@ -71,7 +71,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 
   1. For postgresql hosts:
-    #
+
     ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
 
     #
@@ -85,6 +85,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
     #
 
   1. For ingress hosts:
+
 
     ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
 
