@@ -41,31 +41,31 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1.  Start runnig the configuration scripts
 
-    cd ~/src/host-init
+        cd ~/src/host-init
 
-    sudo ./00-rc.conf-settings
-    sudo ./01-jail-fileset-initialize.sh
+        sudo ./00-rc.conf-settings
+        sudo ./01-jail-fileset-initialize.sh
 
-    # start stuff on the host which are needed by the jails
-    # eg. unbound
-    sudo ./02-start-required-services
+        # start stuff on the host which are needed by the jails
+        # eg. unbound
+        sudo ./02-start-required-services
 
 1.  Create the jails
 
-    # This creates the jails which will be later configured by Ansible
-    sudo ./03-create-jails.sh
+        # This creates the jails which will be later configured by Ansible
+        sudo ./03-create-jails.sh
 
-    sudo cp -i jail.conf /etc/jail.conf
+        sudo cp -i jail.conf /etc/jail.conf
 
 1.  Start the jails and configure them for running Ansible
 
-    sudo ./04-start-jails.sh
+        sudo ./04-start-jails.sh
 
-    sudo ./05-prepare-jails-for-ansible.sh
-    sudo ./06-install-local-files.sh
+        sudo ./05-prepare-jails-for-ansible.sh
+        sudo ./06-install-local-files.sh
 
-    # if you haven't already, do the Ansible configuration outlined in
-    # [Ansible.md](Ansible.md)
+        # if you haven't already, do the Ansible configuration outlined in
+        # [Ansible.md](Ansible.md)
 
 1.  Switch over to the ansible host and run some or all of these commands
 
