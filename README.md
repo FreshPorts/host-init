@@ -76,73 +76,73 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         #
         # use pg_hba.conf file as a template for additiions to the
-    # pg_hba.conf file on the PostgreSQL server.
-    # Look in roles/postgresql-server/templates/hosts/SERVERNAME/pg_hba.conf.j2
-    #
+        # pg_hba.conf file on the PostgreSQL server.
+        # Look in roles/postgresql-server/templates/hosts/SERVERNAME/pg_hba.conf.j2
+        #
 
-    # run the ansible scripts. The following scripts depend upon users
-    # created by that process
-    #
+        # run the ansible scripts. The following scripts depend upon users
+        # created by that process
+        #
 
 1. For ingress hosts:
 
-    ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
+        ansible-playbook freshports-ingress.yml --limit=r720-02-freshports-ingress01
 
-    #
-    # key for the ingress jail
-    #
-    sudo jexec nginx01 mkdir /usr/local/etc/ssl
-    sudo jexec nginx01 touch /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
-    sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
-    sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        #
+        # key for the ingress jail
+        #
+        sudo jexec nginx01 mkdir /usr/local/etc/ssl
+        sudo jexec nginx01 touch /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
 
-    # copy the cert key into that file
-    sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        # copy the cert key into that file
+        sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
 
-    # pull in the cert for that key above
-    sudo jexec -U anvil ingress01 /usr/local/bin/cert-puller
+        # pull in the cert for that key above
+        sudo jexec -U anvil ingress01 /usr/local/bin/cert-puller
 
-    ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
+        ansible-playbook freshports-configuration-ingress.yml --limit=r720-02-freshports-ingress01
 
 
 1.  For nginx hosts:
 
-    ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
+        ansible-playbook freshports-website.yml --limit=r720-02-freshports-nginx01
 
-    #
-    # key for the nginx jail
-    #
-    sudo jexec nginx01 mkdir /usr/local/etc/ssl
-    sudo jexec nginx01 touch /usr/local/etc/ssl/${NGINX_CERTNAME}.key
-    sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${NGINX_CERTNAME}.key
-    sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+        #
+        # key for the nginx jail
+        #
+        sudo jexec nginx01 mkdir /usr/local/etc/ssl
+        sudo jexec nginx01 touch /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+        sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+        sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${NGINX_CERTNAME}.key
 
-    # copy the cert key into that file
-    sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+        # copy the cert key into that file
+        sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${NGINX_CERTNAME}.key
 
-    # pull in the cert for that key above
-    sudo jexec -U anvil nginx01 /usr/local/bin/cert-puller
+        # pull in the cert for that key above
+        sudo jexec -U anvil nginx01 /usr/local/bin/cert-puller
 
-    # ansible-playbook freshports-configuration-website.yml --limit=r720-02-freshports-nginx01
-    #
+        # ansible-playbook freshports-configuration-website.yml --limit=r720-02-freshports-nginx01
+        #
 
 1. for the mx-ingress jail
 
-    ansible-playbook freshports-mx-ingress-mailserver.yml --limit=r720-02-freshports-mx-ingress04
+        ansible-playbook freshports-mx-ingress-mailserver.yml --limit=r720-02-freshports-mx-ingress04
 
-    #
-    # key for the mx jail
-    #
-    sudo jexec mx-ingress04 mkdir /usr/local/etc/ssl
-    sudo jexec mx-ingress04 touch /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
-    sudo jexec mx-ingress04 chmod 440 /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
-    sudo jexec mx-ingress04 chown root:www /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
+        #
+        # key for the mx jail
+        #
+        sudo jexec mx-ingress04 mkdir /usr/local/etc/ssl
+        sudo jexec mx-ingress04 touch /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
+        sudo jexec mx-ingress04 chmod 440 /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
+        sudo jexec mx-ingress04 chown root:www /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
 
-    # copy the cert key into that file
-    sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
+        # copy the cert key into that file
+        sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
 
-    # pull in the cert for that key above
-    sudo jexec -U anvil mx-ingress04 /usr/local/bin/cert-puller
+        # pull in the cert for that key above
+        sudo jexec -U anvil mx-ingress04 /usr/local/bin/cert-puller
 
 1. Now that the jails have been configured, we can mount all the filesystems
 
@@ -160,11 +160,11 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1.  Mount the previously unmounted filesystems
 
-    sudo ./07-mount-external-datasets
+        sudo ./07-mount-external-datasets
 
 1.  Start the jails again
 
-    sudo service jail start
+        sudo service jail start
 
 1.  Remember to rotat log files
 
