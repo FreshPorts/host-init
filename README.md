@@ -99,11 +99,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # copy the cert key into that file
         sudo jexec ingress01 sudoedit /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
 
-        # pull in the cert for that key above
-        sudo jexec -U anvil ingress01 /usr/local/bin/cert-puller
-
-        ansible-playbook freshports-configuration-ingress.yml --limit=aws-1.freshports-ingress01
-
 
 1.  For nginx hosts:
 
@@ -120,11 +115,10 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # copy the cert key into that file
         sudo jexec nginx01 sudoedit /usr/local/etc/ssl/${NGINX_CERTNAME}.key
 
-        # pull in the cert for that key above
-        sudo jexec -U anvil nginx01 /usr/local/bin/cert-puller
-
-        # ansible-playbook freshports-configuration-website.yml --limit=aws-1.freshports-nginx01
-        #
+        # this will attempt to start nginx, which will fail, because it does
+        # not have the certificate yet, but it is all configured to go.
+        # that is OK, because it is the last step performed.
+        # we could just run cert-puller first.
 
 1. for the mx-ingress jail
 
@@ -138,22 +132,31 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudo jexec mx-ingress04 chmod 440 /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
         sudo jexec mx-ingress04 chown root:www /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
 
+
         # copy the cert key into that file
         sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
 
-        # pull in the cert for that key above
-        sudo jexec -U anvil mx-ingress04 /usr/local/bin/cert-puller
 
 1. With the required packages installed, try fetching certs etc:
 
+        # This will configure cert-puller.conf, run `cert-puller -s` to get
+        # the sudo permissions, and run `cert-puller`
         sudo ./06-install-local-files.sh
+
+1. With the certs downloaded and installed, we can do the final configurations.
+
+        ansible-playbook freshports-configuration-ingress.yml --limit=aws-1.freshports-ingress01
+
+        ansible-playbook freshports-configuration-website.yml --limit=aws-1.freshports-nginx01
 
 1. Now that the jails have been configured, we can mount all the filesystems
 
         sudo service jail stop
 
-        # sudoedit /etc/jail.conf and uncomment things which say AFTER CONFIG
+        sudoedit /etc/jail.conf
+        # uncomment things which say AFTER CONFIG
 
+1.  Mount the previously unmounted filesystems
         # this will mount the repos dir
         # populate the repos:
         #
@@ -161,7 +164,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # * ingress_svn = ports
         # * freshports - git ports, svn ports
         #
-1.  Mount the previously unmounted filesystems
 
         sudo ./07-mount-external-datasets
 
