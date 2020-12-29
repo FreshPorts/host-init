@@ -65,6 +65,15 @@ in the group name):
 
 ## Add this to group_vars
 
+This will go into `/etc/hosts` on the jail host - this is carried out by the
+`etc-hosts` task in `freshports-host.yml`.
+
+    etc_hosts:
+    - "127.163.0.10  aws-1.freshports-ingress01"
+    - "127.163.0.80  aws-1.freshports-nginx01"
+    - "127.163.0.25  aws-1.freshports-mx-ingress04"
+
+
 Based on the group name used above, create this file:
 
     cd group_vars
