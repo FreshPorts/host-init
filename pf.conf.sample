@@ -25,7 +25,4 @@ antispoof log for $PUBLIC
 pass out on xn0 from (xn0) to any
 pass  in on xn0 from any to (xn0)
 
-#pass out on xn0 inet6 proto ipv6-frag from (xn0) to any
-#pass  in on xn0 inet6 proto ipv6-frag from any to (xn0)
-
 pass in on $PUBLIC inet6 proto icmp6 all allow-opts
