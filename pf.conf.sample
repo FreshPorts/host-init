@@ -3,8 +3,13 @@ PUBLIC="xn0"
 FRESHPORTS_WWW_JAIL="127.163.0.80"
 FRESHPORTS_WWW_JAIL_IPV6="fd00::80"
 
+set skip on lo
+
+scrub in on $PUBLIC
+
 
 nat on $PUBLIC from 127.163.0.0/24 to any -> 10.0.17.21
+
 
 rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = http  -> $FRESHPORTS_WWW_JAIL
 rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = https -> $FRESHPORTS_WWW_JAIL
@@ -12,4 +17,15 @@ rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = https -> $FRESH
 rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = http  -> $FRESHPORTS_WWW_JAIL_IPV6
 rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = https -> $FRESHPORTS_WWW_JAIL_IPV6
 
-pass all
+
+block log all
+
+antispoof log for $PUBLIC
+
+pass out on xn0 from (xn0) to any
+pass  in on xn0 from any to (xn0)
+
+#pass out on xn0 inet6 proto ipv6-frag from (xn0) to any
+#pass  in on xn0 inet6 proto ipv6-frag from any to (xn0)
+
+pass in on $PUBLIC inet6 proto icmp6 all allow-opts
