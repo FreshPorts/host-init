@@ -22,4 +22,4 @@ sysrc cloned_interfaces="${cloned_interfaces} lo1"
 sysrc pf_enable="YES"
 
 # the IP address for unbound
-ifconfig_lo1_aliase1="inet  127.163.0.53/32
+sysrc ifconfig_lo1_alias1="inet  127.163.0.53/32"
