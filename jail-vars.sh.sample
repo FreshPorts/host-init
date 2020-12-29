@@ -1,14 +1,17 @@
 #!/bin/sh
 
+# list of jails
+JAILS="ingress01 nginx01 mx-ingress04"
+
 # path to mkjail script
 # as obtained from https://github.com/mkjail/mkjail
-mkjail_path="/home/dvl/src/mkjail"
+mkjail_path="/usr/home/ec2-user/src/mkjail"
 
 # which zpool do the jails live in
 jailzpool=zroot
 
 # what FreeBSD version are we grabbing
-VERSION=12.1
+VERSION=12.2
 
 # the mountpoint for all jails
 jailroot=/jails
