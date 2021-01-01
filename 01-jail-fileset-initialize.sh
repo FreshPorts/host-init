@@ -33,11 +33,8 @@ zfs snapshot ${freebsdzpool}/freshports/ingress01/cache/html@empty
 
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01
 zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/cache
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/cache/ports
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/cache/packages
 
-zfs snapshot ${freebsdzpool}/freshports/nginx01/cache/ports@empty
-zfs snapshot ${freebsdzpool}/freshports/nginx01/cache/packages@empty
-
-zfs set jailed=on ${freebsdzpool}/freshports/nginx01/cache/ports
-zfs set jailed=on ${freebsdzpool}/freshports/nginx01/cache/packages
+for set in $caching_sets
+do
+  zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/cache/$set
+done
