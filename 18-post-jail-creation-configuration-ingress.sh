@@ -23,3 +23,8 @@ jexec ingress01 chmod 0755 /var/db/freshports/cache/html
 # allow freshports to rollback
 
 jexec ingress01 zfs allow freshports rollback ${freebsdzpool}/freshports/ingress01/cache
+
+# set correct permission on ~ingress/repos directory
+# this is a mountpoint for a zfs file system
+
+jexec ingress01 chown ingress:ingress /var/db/ingress/repos
