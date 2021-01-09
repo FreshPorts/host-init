@@ -2,8 +2,18 @@
 
 . /usr/local/etc/host-init/jail-vars.sh
 
-# this is where we install
-# * certs
+# install the fstab files for the jails
+
+cp fstab/fstab.ingress /etc/fstab.ingress01
+cp fstab/fstab.nginx   /etc/fstab.nginx01
+
+# now massage that data
+sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"          /etc/fstab.ingress01
+sed -i '' -e "s#%%JAIL_NAME%%#ingress01#g"          /etc/fstab.ingress01
+
+sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"          /etc/fstab.nginx01
+sed -i '' -e "s#%%JAIL_NAME_INGRESS%%#ingress01#g"  /etc/fstab.nginx01
+sed -i '' -e "s#%%JAIL_NAME_NGINX%%#nginx01#g"      /etc/fstab.nginx01
 
 # which jails have certs and need cert-puller configured
 
@@ -40,3 +50,4 @@ do
   # pull down the certs
   sudo jexec -U anvil $jail /usr/local/bin/cert-puller
 done
+
