@@ -86,7 +86,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1. For ingress hosts:
 
-        ansible-playbook freshports-ingress.yml --limit=aws-1.freshports-ingress01
+        ansible-playbook freshports-ingress-git.yml --limit=aws-1.freshports-ingress01
 
         #
         # key for the ingress jail
@@ -102,7 +102,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1.  For nginx hosts:
 
-        ansible-playbook freshports-website.yml --limit=aws-1.freshports-nginx01
+        ansible-playbook freshports-website-git.yml --limit=aws-1.freshports-nginx01
 
         #
         # key for the nginx jail
