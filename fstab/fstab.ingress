@@ -1,0 +1,13 @@
+#
+# For the FreshPorts chroot within this jail
+#
+%%JAIL_ROOT%%/%%JAIL_NAME%%/bin             %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/bin           nullfs  ro,nosuid         0   0
+none                                        %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/dev           devfs   rw                0   0
+%%JAIL_ROOT%%/%%JAIL_NAME%%/lib             %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/lib           nullfs  ro,nosuid         0   0
+%%JAIL_ROOT%%/%%JAIL_NAME%%/libexec         %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/libexec       nullfs  ro,nosuid         0   0
+%%JAIL_ROOT%%/%%JAIL_NAME%%/sbin            %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/sbin          nullfs  ro,nosuid         0   0
+%%JAIL_ROOT%%/%%JAIL_NAME%%/usr/share/mk    %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/usr/share/mk  nullfs  ro,nosuid,noexec  0   0
+%%JAIL_ROOT%%/%%JAIL_NAME%%/usr/sbin        %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/usr/sbin      nullfs  ro,nosuid         0   0
+%%JAIL_ROOT%%/%%JAIL_NAME%%/usr/bin         %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/usr/bin       nullfs  ro,nosuid         0   0
+%%JAIL_ROOT%%/%%JAIL_NAME%%/usr/lib         %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/usr/lib       nullfs  ro,nosuid         0   0
+%%JAIL_ROOT%%/%%JAIL_NAME%%/usr/libexec     %%JAIL_ROOT%%/%%JAIL_NAME%%/var/db/freshports/ports-jail/usr/libexec   nullfs  ro,nosuid         0   0

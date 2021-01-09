@@ -1,0 +1,3 @@
+# The ingress jail generates and maintains some static HTML for use by the nginx jail
+#
+%%JAIL_ROOT%%/%%JAIL_NAME_INGRESS%%/var/db/freshports/cache/html %%JAIL_ROOT%%/%%JAIL_NAME_NGINX%%/var/db/freshports/cache/html   nullfs  ro,nosuid,noexec  0   0
