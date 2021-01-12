@@ -1,14 +1,46 @@
-PUBLIC="xn0"
+PUBLIC="ena0"
+
+MY_MAIN_IP="10.0.17.21"
+DNS_UPSTREAM="10.0.0.2"
+
+
+# 
+# these numbers where in the example: https://tanzu.vmware.com/content/blog/a-barebones-pf-ipv6-firewall-ruleset
+# I prefer the names instead.
+#icmp6_types="{ 2, 128 }" # packet too big, echo request (ping6)
+icmp6_types = "{ echoreq, unreach, toobig, timex, paramprob, redir, neighbradv, neighbrsol, routeradv, routersol }"
+# Neighbor Discovery Protocol (NDP) (types 133-137):
+#   Router Solicitation (RS), Router Advertisement (RA)
+#   Neighbor Solicitation (NS), Neighbor Advertisement (NA)
+#   Route Redirection
+icmp6_types_ext_if="{ 128, 133, 134, 135, 136, 137 }"
+udp6_services_ext_if="{ 53, 123, 1194, 546}" # 546 == dhcpv6-client
+
 
 FRESHPORTS_WWW_JAIL="127.163.0.80"
 FRESHPORTS_WWW_JAIL_IPV6="fd00::80"
+
+FRESHPORTS_WWW_INGRESS="127.163.0.10"
+FRESHPORTS_WWW_INGRESS_IPV6="fd80::10"
+
+OPENDNS1=208.67.222.222
+OPENDNS2=208.67.220.220
+
+table <DB_CLIENTS>   { }
+table <SSH_GOOD_IP4> { fill this in }
+table <SSH_GOOD_IP6> { fill this in }
+table <DNS>          { $DNS_UPSTREAM, $OPENDNS1, $OPENDNS2 }
+
+
+
 
 set skip on lo
 
 scrub in on $PUBLIC
 
 
-nat on $PUBLIC from 127.163.0.0/24 to any -> 10.0.17.21
+nat on $PUBLIC from 127.163.0.0/24 to any -> $MY_MAIN_IP
+
 
 
 rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = http  -> $FRESHPORTS_WWW_JAIL
@@ -20,9 +52,27 @@ rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = https -> $FRESH
 
 block log all
 
+# this has to go and the above put back in.
+#pass all
+
 antispoof log for $PUBLIC
 
-pass out on xn0 from (xn0) to any
-pass  in on xn0 from any to (xn0)
+# based on https://tanzu.vmware.com/content/blog/a-barebones-pf-ipv6-firewall-ruleset
+pass in quick on $PUBLIC inet6 proto ipv6-icmp icmp6-type $icmp6_types keep state
+pass in quick on $PUBLIC inet6 proto ipv6-icmp from any to { ($PUBLIC), ff02::1/16 } icmp6-type $icmp6_types_ext_if keep state
+pass in quick on $PUBLIC inet6 proto udp from any to ( $PUBLIC ) port $udp6_services_ext_if keep state
+
+pass in quick on $PUBLIC inet  proto tcp from <SSH_GOOD_IP4> to ($PUBLIC) port ssh flags S/SA keep state
+pass in quick on $PUBLIC inet6 proto tcp from <SSH_GOOD_IP6> to ($PUBLIC) port ssh flags S/SA keep state
+
+# allow database access
+pass out quick on $PUBLIC inet  proto tcp from ($PUBLIC) to any port postgresql flags S/SA keep state
+
+# allow all out
+pass out quick on $PUBLIC from ($PUBLIC) keep state
+
+pass out on $PUBLIC inet  proto tcp from $FRESHPORTS_WWW_INGRESS      to any port 443
+
+pass out on $PUBLIC inet proto udp from ($PUBLIC) to <DNS> port  domain keep state
 
 pass in on $PUBLIC inet6 proto icmp6 all allow-opts
