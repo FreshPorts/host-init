@@ -16,15 +16,28 @@ icmp6_types = "{ echoreq, unreach, toobig, timex, paramprob, redir, neighbradv, 
 icmp6_types_ext_if="{ 128, 133, 134, 135, 136, 137 }"
 udp6_services_ext_if="{ 53, 123, 1194, 546}" # 546 == dhcpv6-client
 
+# jails
 
-FRESHPORTS_WWW_JAIL="127.163.0.80"
-FRESHPORTS_WWW_JAIL_IPV6="fd00::80"
+JAIL_FRESHPORTS_INGRESS="127.163.0.10"
+JAIL_FRESHPORTS_INGRESS_IPV6="fd80::10"
 
-FRESHPORTS_WWW_INGRESS="127.163.0.10"
-FRESHPORTS_WWW_INGRESS_IPV6="fd80::10"
+JAIL_FRESHPORTS_MX="127.163.0.25"
+JAIL_FRESHPORTS_MX_IPV6="fd00::25"
+
+JAIL_FRESHPORTS_WWW="127.163.0.80"
+JAIL_FRESHPORTS_WWW_IPV6="fd00::80"
+
+# safe locations for ssh src
+# fill this in
+SRC1=""
+SRC2=""
+
+
+
 
 OPENDNS1=208.67.222.222
 OPENDNS2=208.67.220.220
+DB_SERVER=54.242.45.161
 
 table <DB_CLIENTS>   { }
 table <SSH_GOOD_IP4> { fill this in }
@@ -43,11 +56,19 @@ nat on $PUBLIC from 127.163.0.0/24 to any -> $MY_MAIN_IP
 
 
 
-rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = http  -> $FRESHPORTS_WWW_JAIL
-rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = https -> $FRESHPORTS_WWW_JAIL
+# redirect incoming http & https
+rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = http  -> $JAIL_FRESHPORTS_WWW
+rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = https -> $JAIL_FRESHPORTS_WWW
 
-rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = http  -> $FRESHPORTS_WWW_JAIL_IPV6
-rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = https -> $FRESHPORTS_WWW_JAIL_IPV6
+rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = http  -> $JAIL_FRESHPORTS_WWW_IPV6
+rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = https -> $JAIL_FRESHPORTS_WWW_IPV6
+
+# redirect incoming smtp
+
+rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = smtp -> $JAIL_FRESHPORTS_MX
+rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = smtp -> $JAIL_FRESHPORTS_MX_IPV6
+
+
 
 
 block log all
@@ -62,6 +83,7 @@ pass in quick on $PUBLIC inet6 proto ipv6-icmp icmp6-type $icmp6_types keep stat
 pass in quick on $PUBLIC inet6 proto ipv6-icmp from any to { ($PUBLIC), ff02::1/16 } icmp6-type $icmp6_types_ext_if keep state
 pass in quick on $PUBLIC inet6 proto udp from any to ( $PUBLIC ) port $udp6_services_ext_if keep state
 
+# ssh
 pass in quick on $PUBLIC inet  proto tcp from <SSH_GOOD_IP4> to ($PUBLIC) port ssh flags S/SA keep state
 pass in quick on $PUBLIC inet6 proto tcp from <SSH_GOOD_IP6> to ($PUBLIC) port ssh flags S/SA keep state
 
@@ -71,7 +93,8 @@ pass out quick on $PUBLIC inet  proto tcp from ($PUBLIC) to any port postgresql 
 # allow all out
 pass out quick on $PUBLIC from ($PUBLIC) keep state
 
-pass out on $PUBLIC inet  proto tcp from $FRESHPORTS_WWW_INGRESS      to any port 443
+# allow ingress to do git clone via https
+pass out on $PUBLIC inet  proto tcp from $JAIL_FRESHPORTS_INGRESS      to any port 443
 
 pass out on $PUBLIC inet proto udp from ($PUBLIC) to <DNS> port  domain keep state
 
