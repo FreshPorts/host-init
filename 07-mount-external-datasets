@@ -7,10 +7,11 @@
 # I don't know. No real reason.
 
 # set the mountpoint in the jail
-zfs set mountpoint=${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ${freebsdzpool}/freshports/ingress01/freshports/repos
-zfs set mountpoint=${jailroot}/ingress01/var/db/ingress/repos                      ${freebsdzpool}/freshports/ingress01/ingress/repos
+zfs set mountpoint=${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ${jailzpool}/freshports/ingress01/freshports/repos
+zfs set mountpoint=${jailroot}/ingress01/var/db/ingress/repos                      ${jailzpool}/freshports/ingress01/ingress/repos
 
-zfs mount ${freebsdzpool}/freshports/ingress01/repos
+zfs mount ${jailzpool}/freshports/ingress01/freshports/repos
+zfs mount ${jailzpool}/freshports/ingress01/ingress/repos
 
 if [ ! -d ${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ]
 then

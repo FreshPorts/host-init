@@ -11,7 +11,7 @@ caching_sets="categories commits daily news pacakges ports"
 mkjail_path="/usr/home/ec2-user/src/mkjail"
 
 # which zpool do the jails live in
-jailzpool=zroot
+jailzpool=data01
 
 # what FreeBSD version are we grabbing
 VERSION=12.2
