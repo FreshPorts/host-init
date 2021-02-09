@@ -4,15 +4,17 @@
 
 cd $mkjail_path
 
-echo creating ingress01
-./src/bin/mkjail create -v ${VERSION}-RELEASE -j ingress01 -f ingress
+if [ ! -z ${INGRESS_JAIL} ]; then
+  echo creating ${INGRESS_JAIL}
+  ./src/bin/mkjail create -v ${VERSION}-RELEASE -j ${INGRESS_JAIL} -f ingress
+fi
 
-echo creating nginx01
-./src/bin/mkjail create -v ${VERSION}-RELEASE -j nginx01 -f nginx
+if [ ! -z ${WEB_JAIL} ]; then
+  echo creating ${WEB_JAIL}
+  ./src/bin/mkjail create -v ${VERSION}-RELEASE -j ${WEB_JAIL} -f nginx
+fi
 
-#
-# 04 here, because we mx-ingress hostnames are public and we already
-# have both 01 and 02 and 03.
-#
-echo creating mx-ingress04
-./src/bin/mkjail create -v ${VERSION}-RELEASE -j mx-ingress04 -f default
+if [ ! -z ${MX_JAIL} ]; then
+  echo creating ${MX_JAIL}
+  ./src/bin/mkjail create -v ${VERSION}-RELEASE -j mx-ingress04 -f default
+fi

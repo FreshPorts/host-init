@@ -14,13 +14,6 @@ It uses [mkjail](https://github.com/mkjail/mkjail)
 
 ## The scripts
 
-These are the configuration items for the scripts below:
-
-    export INGRESS_CERTNAME=aws-1-ingress01.freshports.org
-    # this cert will also have names for freshports.org and www.freshports.org
-    export NGINX_CERTNAME=aws-1.freshports.org
-    export MXINGRESS_CERTNAME=mx-ingress04.freshports.org
-
 These are the scripts to run after the above.
 
 1.  Configure the host itself by running this Ansible script. This will
@@ -93,12 +86,12 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # key for the ingress jail
         #
         sudo jexec ingress01 mkdir /usr/local/etc/ssl
-        sudo jexec ingress01 touch /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
-        sudo jexec ingress01 chmod 440 /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
-        sudo jexec ingress01 chown root:www /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        sudo jexec ingress01 touch /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
+        sudo jexec ingress01 chmod 440 /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
+        sudo jexec ingress01 chown root:www /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
 
         # copy the cert key into that file
-        sudo jexec ingress01 sudoedit /usr/local/etc/ssl/${INGRESS_CERTNAME}.key
+        sudo jexec ingress01 sudoedit /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
 
 
 1.  For nginx hosts:
@@ -109,12 +102,12 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # key for the nginx jail
         #
         sudo jexec nginx01 mkdir /usr/local/etc/ssl
-        sudo jexec nginx01 touch /usr/local/etc/ssl/${NGINX_CERTNAME}.key
-        sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${NGINX_CERTNAME}.key
-        sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+        sudo jexec nginx01 touch /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
+        sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
+        sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
 
         # copy the cert key into that file
-        sudo jexec nginx01 sudoedit /usr/local/etc/ssl/${NGINX_CERTNAME}.key
+        sudo jexec nginx01 sudoedit /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
 
         # this will attempt to start nginx, which will fail, because it does
         # not have the certificate yet, but it is all configured to go.
@@ -129,13 +122,13 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # key for the mx jail
         #
         sudo jexec mx-ingress04 mkdir /usr/local/etc/ssl
-        sudo jexec mx-ingress04 touch /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
-        sudo jexec mx-ingress04 chmod 440 /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
-        sudo jexec mx-ingress04 chown root:www /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
+        sudo jexec mx-ingress04 touch /usr/local/etc/ssl/${MX_JAIL_CERT}.key
+        sudo jexec mx-ingress04 chmod 440 /usr/local/etc/ssl/${MX_JAIL_CERT}.key
+        sudo jexec mx-ingress04 chown root:www /usr/local/etc/ssl/${MX_JAIL_CERT}.key
 
 
         # copy the cert key into that file
-        sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${MXINGRESS_CERTNAME}.key
+        sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${MX_JAIL_CERT}.key
 
 
 1. With the required packages installed, try fetching certs etc:

@@ -8,23 +8,23 @@
 
 # set the mountpoint in the jail
 # I don't know if this adjust canmount for all childen
-zfs set mountpoint=${jailroot}/ingress01  ${jailzpool}/freshports/ingress01
+zfs set mountpoint=${jailroot}/${INGRESS_JAIL}  ${jailzpool}/freshports/${INGRESS_JAIL}
 
 
-zfs mount ${jailzpool}/freshports/ingress01/var/db/freshports/repos
-zfs mount ${jailzpool}/freshports/ingress01/var/db/ingress/repos
+zfs mount ${jailzpool}/freshports/${INGRESS_JAIL}/var/db/freshports/repos
+zfs mount ${jailzpool}/freshports/${INGRESS_JAIL}/var/db/ingress/repos
 
-if [ ! -d ${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos ]
+if [ ! -d ${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos ]
 then
-  echo ${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos does not exist
+  echo ${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos does not exist
   exit 12
 fi
 
 # check out head if it does not already exist
-if [ ! -d "${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos/PORTS-head" ]
+if [ ! -d "${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos/PORTS-head" ]
 then
   echo directory does not exist
-  cd ${jailroot}/ingress01/var/db/freshports/ports-jail/var/db/repos
+  cd ${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos
   svn co svn://svn.freebsd.org/ports/head PORTS-head
 else
   echo PORTS-head already exists

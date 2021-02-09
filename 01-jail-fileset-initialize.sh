@@ -19,18 +19,18 @@ mkdir -p ${freebsdreleases}/flavours/default/etc
 # use our resolve there
 cp /etc/resolv.conf ${freebsdreleases}/flavours/default/etc/
 
-zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/freshports/cache/html
-zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/freshports/cache/spooling
-zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/freshports/message-queues
-zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/freshports/repos
-zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/ingress/message-queues
-zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/ingress/repos
-zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/ingress_svn/message_queues
-zfs snapshot ${freebsdzpool}/freshports/ingress01/var/db/freshports/cache/html@empty
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/spooling
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/message-queues
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/repos
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/message-queues
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/repos
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress_svn/message_queues
+zfs snapshot ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html@empty
 
-zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/var/db/freshports/cache
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${WEB_JAIL}/var/db/freshports/cache
 
 for set in $caching_sets
 do
-  zfs create -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/var/db/freshports/cache/$set
+  zfs create -o canmount=noauto -o canmount=off -o mountpoint=none ${datazpool}/freshports/${WEB_JAIL}/var/db/freshports/cache/$set
 done

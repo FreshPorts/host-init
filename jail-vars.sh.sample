@@ -1,9 +1,23 @@
 #!/bin/sh
 
-# list of jails
-JAILS="ingress01 nginx01 mx-ingress04"
+# if you set it blank, it won't get created
+#
+INGRESS_JAIL="ingress01"
+WEB_JAIL="nginx01"
+MX_JAIL="mx-ingress01"
 
-# list of filesets in nginx01 jail used for caching
+INGRESS_JAIL_CERT="${INGRESS_JAIL}.int.unixathome.org"
+WEB_JAIL_CERT="${WEB_JAIL}.int.unixathome.org"
+MX_JAIL_CERT="${MX_JAIL}.int.unixathome.org"
+
+# list of jails
+#
+# If you remove a jail from here, it won't be created
+# But other scripts might fail, but fail gracefully
+#
+JAILS="$INGRESS_JAIL $WEB_JAIL $MX_JAIL"
+
+# list of filesets in WEB_JAIL jail used for caching
 caching_sets="categories commits daily general news packages pages ports spooling"
 
 # path to mkjail script
@@ -12,6 +26,9 @@ mkjail_path="/usr/home/ec2-user/src/mkjail"
 
 # which zpool do the jails live in
 jailzpool=data01
+
+# which zpool do the jail special filesystems live in (message-queues etc)
+datazpool=${jailzpool}
 
 # what FreeBSD version are we grabbing
 VERSION=12.2

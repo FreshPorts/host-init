@@ -4,16 +4,16 @@
 
 # install the fstab files for the jails
 
-cp fstab/fstab.ingress /etc/fstab.ingress01
-cp fstab/fstab.nginx   /etc/fstab.nginx01
+cp fstab/fstab.ingress /etc/fstab.${INGRESS_JAIL}
+cp fstab/fstab.nginx   /etc/fstab.${WEB_JAIL}
 
 # now massage that data
-sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"          /etc/fstab.ingress01
-sed -i '' -e "s#%%JAIL_NAME%%#ingress01#g"          /etc/fstab.ingress01
+sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"          /etc/fstab.${INGRESS_JAIL}
+sed -i '' -e "s#%%JAIL_NAME%%#${INGRESS_JAIL}#g"          /etc/fstab.${INGRESS_JAIL}
 
-sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"          /etc/fstab.nginx01
-sed -i '' -e "s#%%JAIL_NAME_INGRESS%%#ingress01#g"  /etc/fstab.nginx01
-sed -i '' -e "s#%%JAIL_NAME_NGINX%%#nginx01#g"      /etc/fstab.nginx01
+sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"          /etc/fstab.${WEB_JAIL}
+sed -i '' -e "s#%%JAIL_NAME_INGRESS%%#${INGRESS_JAIL}#g"  /etc/fstab.${WEB_JAIL}
+sed -i '' -e "s#%%JAIL_NAME_NGINX%%#${WEB_JAIL}#g"      /etc/fstab.${WEB_JAIL}
 
 # which jails have certs and need cert-puller configured
 
@@ -24,18 +24,19 @@ do
 done
 
 # this is harder to put into a for loop because the jail name and the cert name do corresponds
+# Yeah, where are the variables for the cert names?
 
-sed -i '' -e 's/%%MYCERTS%%/aws-1-ingress01.freshports.org/g'           ${jailroot}/ingress01/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e 's/%%SERVICES_RESTART%%/SERVICES_RESTART="postfix"/g'      ${jailroot}/ingress01/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e 's/%%SERVICES_RELOAD%%//g'                                 ${jailroot}/ingress01/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%MYCERTS%%/${INGRESS_JAIL_CERT}/g"                      ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RESTART="postfix"/g"       ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
 
-sed -i '' -e 's/%%MYCERTS%%/aws-1.freshports.org/g'                     ${jailroot}/nginx01/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e 's/%%SERVICES_RESTART%%//g'                                ${jailroot}/nginx01/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e 's/%%SERVICES_RELOAD%%/SERVICES_RELOAD="nginx postfix"/g'  ${jailroot}/nginx01/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%MYCERTS%%/${WEB_JAIL_CERT}/g"                          ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%SERVICES_RESTART%%//g"                                 ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%SERVICES_RELOAD%%/SERVICES_RELOAD=\"nginx postfix\"/g" ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
 
-sed -i '' -e 's/%%MYCERTS%%/mx-ingress04.freshports.org/g'              ${jailroot}/mx-ingress04/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e 's/%%SERVICES_RESTART%%/SERVICES_RELOAD="postfix"/g'       ${jailroot}/mx-ingress04/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e 's/%%SERVICES_RELOAD%%//g'                                 ${jailroot}/mx-ingress04/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%MYCERTS%%/${MX_JAIL_CERT}/g"                           ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RELOAD=\"postfix\"/g"      ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
+sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
 
 # now set the sudo permissions for each jail
 
