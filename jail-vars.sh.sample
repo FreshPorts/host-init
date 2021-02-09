@@ -4,7 +4,7 @@
 JAILS="ingress01 nginx01 mx-ingress04"
 
 # list of filesets in nginx01 jail used for caching
-caching_sets="categories commits daily news pacakges ports"
+caching_sets="categories commits daily general news packages pages ports spooling"
 
 # path to mkjail script
 # as obtained from https://github.com/mkjail/mkjail

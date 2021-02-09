@@ -19,22 +19,18 @@ mkdir -p ${freebsdreleases}/flavours/default/etc
 # use our resolve there
 cp /etc/resolv.conf ${freebsdreleases}/flavours/default/etc/
 
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/cache
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/cache/html
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/freshports/cache/html
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/freshports/cache/spooling
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/freshports/message-queues
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/freshports/repos
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/ingress/message-queues
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/ingress/repos
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/ingress01/var/db/ingress_svn/message_queues
+zfs snapshot ${freebsdzpool}/freshports/ingress01/var/db/freshports/cache/html@empty
 
-# these is noauto because it gets mounted/umounted by jail.conf
-# -p because the parents will not exist
-zfs create -po canmount=noauto -o mountpoint=none ${freebsdzpool}/freshports/ingress01/ingress/repos
-zfs create -po canmount=noauto -o mountpoint=none ${freebsdzpool}/freshports/ingress01/freshports/repos
-
-zfs snapshot ${freebsdzpool}/freshports/ingress01/cache/html@empty
-
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01
-zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/cache
+zfs create -p -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/var/db/freshports/cache
 
 for set in $caching_sets
 do
-  zfs create -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/cache/$set
+  zfs create -o canmount=noauto -o canmount=off -o mountpoint=none ${freebsdzpool}/freshports/nginx01/var/db/freshports/cache/$set
 done

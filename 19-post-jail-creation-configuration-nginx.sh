@@ -18,5 +18,5 @@ do
    jextc nginx01 zfs snapshot                  ${freebsdzpool}/freshports/nginx01/cache/$set@empty
 done
 
-jexec nginx01 mkdir /var/db/freshports/cache/spooling
+jexec nginx01 mkdir                /var/db/freshports/cache/spooling
 jexec nginx01 chown www:freshports /var/db/freshports/cache/spooling
