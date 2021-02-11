@@ -82,32 +82,38 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         ansible-playbook freshports-ingress-git.yml --limit=aws-1.freshports-ingress01
 
+        # The following is run on the jail host
+	# INGRESS_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
+	# bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
         #
         # key for the ingress jail
         #
-        sudo jexec ingress01 mkdir /usr/local/etc/ssl
-        sudo jexec ingress01 touch /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
-        sudo jexec ingress01 chmod 440 /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
-        sudo jexec ingress01 chown root:www /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
+        sudo jexec $INGRESS_JAIL mkdir /usr/local/etc/ssl
+        sudo jexec $INGRESS_JAIL touch /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
+        sudo jexec $INGRESS_JAIL chmod 440 /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
+        sudo jexec $INGRESS_JAIL chown root:www /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
 
         # copy the cert key into that file
-        sudo jexec ingress01 sudoedit /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
+        sudo jexec $INGRESS_JAIL sudoedit /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
 
 
 1.  For nginx hosts:
 
         ansible-playbook freshports-website-git.yml --limit=aws-1.freshports-nginx01
 
+        # The following is run on the jail host
+	# WEB_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
+	# bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
         #
         # key for the nginx jail
         #
-        sudo jexec nginx01 mkdir /usr/local/etc/ssl
-        sudo jexec nginx01 touch /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
-        sudo jexec nginx01 chmod 440 /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
-        sudo jexec nginx01 chown root:www /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
+        sudo jexec $WEB_JAIL mkdir /usr/local/etc/ssl
+        sudo jexec $WEB_JAIL touch /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
+        sudo jexec $WEB_JAIL chmod 440 /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
+        sudo jexec $WEB_JAIL chown root:www /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
 
         # copy the cert key into that file
-        sudo jexec nginx01 sudoedit /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
+        sudo jexec $WEB_JAIL sudoedit /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
 
         # this will attempt to start nginx, which will fail, because it does
         # not have the certificate yet, but it is all configured to go.
@@ -118,17 +124,21 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         ansible-playbook freshports-mx-ingress-mailserver.yml --limit=aws-1.freshports-mx-ingress04
 
+        # The following is run on the jail host
+	# MX_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
+	# bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
+        #
         #
         # key for the mx jail
         #
-        sudo jexec mx-ingress04 mkdir /usr/local/etc/ssl
-        sudo jexec mx-ingress04 touch /usr/local/etc/ssl/${MX_JAIL_CERT}.key
-        sudo jexec mx-ingress04 chmod 440 /usr/local/etc/ssl/${MX_JAIL_CERT}.key
-        sudo jexec mx-ingress04 chown root:www /usr/local/etc/ssl/${MX_JAIL_CERT}.key
+        sudo jexec $MX_JAIL mkdir /usr/local/etc/ssl
+        sudo jexec $MX_JAIL touch /usr/local/etc/ssl/${MX_JAIL_CERT}.key
+        sudo jexec $MX_JAIL chmod 440 /usr/local/etc/ssl/${MX_JAIL_CERT}.key
+        sudo jexec $MX_JAIL chown root:www /usr/local/etc/ssl/${MX_JAIL_CERT}.key
 
 
         # copy the cert key into that file
-        sudo jexec mx-ingress04 sudoedit /usr/local/etc/ssl/${MX_JAIL_CERT}.key
+        sudo jexec $MX_JAIL sudoedit /usr/local/etc/ssl/${MX_JAIL_CERT}.key
 
 
 1. With the required packages installed, try fetching certs etc:
