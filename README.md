@@ -83,8 +83,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         ansible-playbook freshports-ingress-git.yml --limit=aws-1.freshports-ingress01
 
         # The following is run on the jail host
-	# INGRESS_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
-	# bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
+        # INGRESS_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
+        # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
         #
         # key for the ingress jail
         #
@@ -102,8 +102,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         ansible-playbook freshports-website-git.yml --limit=aws-1.freshports-nginx01
 
         # The following is run on the jail host
-	# WEB_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
-	# bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
+        # WEB_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
+        # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
         #
         # key for the nginx jail
         #
@@ -125,8 +125,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         ansible-playbook freshports-mx-ingress-mailserver.yml --limit=aws-1.freshports-mx-ingress04
 
         # The following is run on the jail host
-	# MX_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
-	# bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
+        # MX_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
+        # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
         #
         #
         # key for the mx jail
