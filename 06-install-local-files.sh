@@ -8,13 +8,15 @@ cp fstab/fstab.ingress /etc/fstab.${INGRESS_JAIL}
 cp fstab/fstab.nginx   /etc/fstab.${WEB_JAIL}
 
 # now massage that data
-sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"          /etc/fstab.${INGRESS_JAIL}
+sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"                /etc/fstab.${INGRESS_JAIL}
 sed -i '' -e "s#%%JAIL_NAME%%#${INGRESS_JAIL}#g"          /etc/fstab.${INGRESS_JAIL}
 
-sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"          /etc/fstab.${WEB_JAIL}
+sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"                /etc/fstab.${WEB_JAIL}
 sed -i '' -e "s#%%JAIL_NAME_INGRESS%%#${INGRESS_JAIL}#g"  /etc/fstab.${WEB_JAIL}
-sed -i '' -e "s#%%JAIL_NAME_NGINX%%#${WEB_JAIL}#g"      /etc/fstab.${WEB_JAIL}
+sed -i '' -e "s#%%JAIL_NAME_NGINX%%#${WEB_JAIL}#g"        /etc/fstab.${WEB_JAIL}
 
+
+# anvil configuration
 # which jails have certs and need cert-puller configured
 
 for jail in $JAILS
@@ -52,3 +54,4 @@ do
   sudo jexec -U anvil $jail /usr/local/bin/cert-puller
 done
 
+# anvil configuration
