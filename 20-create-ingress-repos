@@ -1,0 +1,14 @@
+#!/bin/sh -x
+
+. /usr/local/etc/host-init/jail-vars.sh
+
+# check out head if it does not already exist
+if [ ! -d "${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos/PORTS-head" ]
+then
+  echo directory does not exist
+  cd ${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos
+  svn co svn://svn.freebsd.org/ports/head PORTS-head
+else
+  echo PORTS-head already exists
+fi
+
