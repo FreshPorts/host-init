@@ -145,6 +145,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         # This will configure cert-puller.conf, run `cert-puller -s` to get
         # the sudo permissions, and run `cert-puller`
+        # The anvil configuration should be done by Ansible re: roles/freshports-configuration-website/tasks/main.yml
+        #
         sudo ./06-install-local-files.sh
 
 1. With the certs downloaded and installed, we can do the final configurations.
@@ -160,6 +162,11 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudoedit /etc/jail.conf
         # uncomment things which say AFTER CONFIG
 
+1.  Start the jails again
+
+        sudo service jail start
+
+
 1.  Mount the previously unmounted filesystems
         # this will mount the repos dir
         # populate the repos:
@@ -169,12 +176,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # * freshports - git ports, svn ports
         #
 
-        sudo ./07-mount-external-datasets
-
-1.  Start the jails again
-
-        sudo service jail start
-
+        sudo ./07-post-jail-creation-configuration-nginx.sh
 
 
 1.  Remember to rotat log files
@@ -185,6 +187,5 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 1.  Some post configuration
 
         sudo ./18-post-jail-creation-configuration-ingress.sh
-        sudo ./19-post-jail-creation-configuration-nginx.sh
 
 This FreshPorts instance should now be running
