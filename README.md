@@ -167,25 +167,32 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudo service jail start
 
 
-1.  Mount the previously unmounted filesystems
-        # this will mount the repos dir
-        # populate the repos:
-        #
-        # * ingress - git src, ports, doc, ports-quarterly
-        # * ingress_svn = ports
-        # * freshports - git ports, svn ports
-        #
+1.  Create the ~freshports/cache directories on the webserver
 
         sudo ./07-post-jail-creation-configuration-nginx.sh
 
 
-1.  Remember to rotat log files
+1.  Remember to rotate log files
 
         # the jails need to be started for this one
         sudo ./08-newsyslog.conf
 
-1.  Some post configuration
+1.  Clone the required repos
+        jexec $INGRESS_JAIL -u ingress git clone https://git.FreeBSD.org/src.git ~ingress/repos/src
+        jexec $INGRESS_JAIL -u ingress git clone https://git.FreeBSD.org/doc.git ~ingress/repos/doc
 
-        sudo ./18-post-jail-creation-configuration-ingress.sh
+        # from https://news.freshports.org/2020/12/21/moving-to-the-freebsd-git-repo-for-src/
+        sudo jexec stagegit-ingress01 sudo -u ingress sh -c 'cat > /var/db/ingress/repos/latest.src < EOF
+3cc0c0d66a065554459bd2f9b4f80cc07426464a
+EOF
+
+        # from https://news.freshports.org/2020/12/17/moving-devgit-freshports-org-from-github-to-git-freebsd-org/
+        sudo jexec stagegit-ingress01 sudo -u ingress sh -c 'cat > /var/db/ingress/repos/latest.doc < EOF
+89d0233560e4ba181d73143fc25248b407120e09
+EOF
+
+        jexec $INGRESS_JAIL -u freshports svn co https://svn.freebsd.org/ports/head            ~freshports/ports-jail/var/db/repos/PORTS-head
+        jexec $INGRESS_JAIL -u freshports svn co https://svn.freebsd.org/ports/branches/2021Q1 ~freshports/ports-jail/var/db/repos/PORTS-2021Q1
+
 
 This FreshPorts instance should now be running
