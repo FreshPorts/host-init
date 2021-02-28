@@ -184,14 +184,14 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 
         # from https://news.freshports.org/2020/12/21/moving-to-the-freebsd-git-repo-for-src/
-        sudo jexec stagegit-ingress01 sudo -u ingress sh -c 'cat > /var/db/ingress/repos/latest.src < EOF
+        sudo jexec stagegit-ingress01 sudo -u ingress sh -c 'cat >> /var/db/ingress/repos/latest.src << EOF
         3cc0c0d66a065554459bd2f9b4f80cc07426464a
-        EOF
+        EOF'
 
         # from https://news.freshports.org/2020/12/17/moving-devgit-freshports-org-from-github-to-git-freebsd-org/
-        sudo jexec stagegit-ingress01 sudo -u ingress sh -c 'cat > /var/db/ingress/repos/latest.doc < EOF
+        sudo jexec stagegit-ingress01 sudo -u ingress sh -c 'cat >> /var/db/ingress/repos/latest.doc << EOF
         89d0233560e4ba181d73143fc25248b407120e09
-        EOF
+        EOF'
 
 1.  Get a copy of the subversion repos for the `freshports` user:
 
