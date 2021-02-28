@@ -175,19 +175,25 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # the jails need to be started for this one
         sudo ./08-newsyslog.conf
 
-1.  Clone the required repos
+1.  Clone the required `git` repos for the `ingress` user:
+
         jexec $INGRESS_JAIL -u ingress git clone https://git.FreeBSD.org/src.git ~ingress/repos/src
         jexec $INGRESS_JAIL -u ingress git clone https://git.FreeBSD.org/doc.git ~ingress/repos/doc
 
+1.  Set the `latest.X` values
+
+
         # from https://news.freshports.org/2020/12/21/moving-to-the-freebsd-git-repo-for-src/
         sudo jexec stagegit-ingress01 sudo -u ingress sh -c 'cat > /var/db/ingress/repos/latest.src < EOF
-3cc0c0d66a065554459bd2f9b4f80cc07426464a
-EOF
+        3cc0c0d66a065554459bd2f9b4f80cc07426464a
+        EOF
 
         # from https://news.freshports.org/2020/12/17/moving-devgit-freshports-org-from-github-to-git-freebsd-org/
         sudo jexec stagegit-ingress01 sudo -u ingress sh -c 'cat > /var/db/ingress/repos/latest.doc < EOF
-89d0233560e4ba181d73143fc25248b407120e09
-EOF
+        89d0233560e4ba181d73143fc25248b407120e09
+        EOF
+
+1.  Get a copy of the subversion repos for the `freshports` user:
 
         jexec $INGRESS_JAIL -u freshports svn co https://svn.freebsd.org/ports/head            ~freshports/ports-jail/var/db/repos/PORTS-head
         jexec $INGRESS_JAIL -u freshports svn co https://svn.freebsd.org/ports/branches/2021Q1 ~freshports/ports-jail/var/db/repos/PORTS-2021Q1
