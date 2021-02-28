@@ -28,6 +28,9 @@ zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${IN
 zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress_svn/message_queues
 zfs snapshot ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html@empty
 
+# One day, you might ask, why put var/db/freshports in the filesystem name? Why not shorter?
+# Things change. Today we are only caching for the freshports user. Tomorrow, it might be another location.
+# Keep it like this, it's a few empty filesystems, but the hierarchy is there.
 zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${WEB_JAIL}/var/db/freshports/cache
 
 for set in $caching_sets
