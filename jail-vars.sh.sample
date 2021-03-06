@@ -18,6 +18,7 @@ MX_JAIL_CERT="${MX_JAIL}.int.unixathome.org"
 JAILS="$INGRESS_JAIL $WEB_JAIL $MX_JAIL"
 
 # list of filesets in WEB_JAIL jail used for caching
+# see also https://git.langille.org/FreshPorts/helper_scripts/src/branch/master/website-clear-all-cache.sample
 caching_sets="categories commits daily general news packages pages ports spooling"
 
 # path to mkjail script
