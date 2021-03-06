@@ -15,6 +15,8 @@ do
    jexec $WEB_JAIL zfs allow freshports rollback ${datazpool}/freshports/$WEB_JAIL/var/db/freshports/cache/$set
    jexec $WEB_JAIL zfs mount                     ${datazpool}/freshports/$WEB_JAIL/var/db/freshports/cache/$set
    jexec $WEB_JAIL chown www:freshports /var/db/freshports/cache/$set
+   jexec $WEB_JAIL chmod g+w            /var/db/freshports/cache/$set
+
 
    # this snapshot must be last or you'll undo the chown above when you rollback
    jexec $WEB_JAIL zfs snapshot                  ${datazpool}/freshports/$WEB_JAIL/var/db/freshports/cache/$set@empty
