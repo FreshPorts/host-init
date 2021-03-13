@@ -18,3 +18,8 @@ if [ ! -z ${MX_JAIL} ]; then
   echo creating ${MX_JAIL}
   ./src/bin/mkjail create -v ${VERSION}-RELEASE -j mx-ingress04 -f default
 fi
+
+if [ ! -z ${PG_JAIL} ]; then
+  echo creating ${PG_JAIL}
+  ./src/bin/mkjail create -v ${VERSION}-RELEASE -j ${PG_JAIL} -f default
+fi

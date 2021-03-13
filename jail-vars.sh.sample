@@ -5,17 +5,19 @@
 INGRESS_JAIL="ingress01"
 WEB_JAIL="nginx01"
 MX_JAIL="mx-ingress01"
+PG_JAIL="pg01"
 
 INGRESS_JAIL_CERT="${INGRESS_JAIL}.int.unixathome.org"
 WEB_JAIL_CERT="${WEB_JAIL}.int.unixathome.org"
 MX_JAIL_CERT="${MX_JAIL}.int.unixathome.org"
+PG_JAIL_CERT="${PG_JAIL}.int.unixathome.org"
 
 # list of jails
 #
 # If you remove a jail from here, it won't be created
 # But other scripts might fail, but fail gracefully
 #
-JAILS="$INGRESS_JAIL $WEB_JAIL $MX_JAIL"
+JAILS="$INGRESS_JAIL $WEB_JAIL $MX_JAIL $PG_JAIL"
 
 # list of filesets in WEB_JAIL jail used for caching
 # see also https://git.langille.org/FreshPorts/helper_scripts/src/branch/master/website-clear-all-cache.sample

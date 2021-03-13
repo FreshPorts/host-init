@@ -4,16 +4,21 @@
 
 # install the fstab files for the jails
 
-cp fstab/fstab.ingress /etc/fstab.${INGRESS_JAIL}
-cp fstab/fstab.nginx   /etc/fstab.${WEB_JAIL}
+if [ ! -z ${INGRESS_JAIL} ] ; then
+  cp fstab/fstab.ingress /etc/fstab.${INGRESS_JAIL}
 
-# now massage that data
-sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"                /etc/fstab.${INGRESS_JAIL}
-sed -i '' -e "s#%%JAIL_NAME%%#${INGRESS_JAIL}#g"          /etc/fstab.${INGRESS_JAIL}
+  # now massage that data
+  sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"                /etc/fstab.${INGRESS_JAIL}
+  sed -i '' -e "s#%%JAIL_NAME%%#${INGRESS_JAIL}#g"          /etc/fstab.${INGRESS_JAIL}
+fi
 
-sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"                /etc/fstab.${WEB_JAIL}
-sed -i '' -e "s#%%JAIL_NAME_INGRESS%%#${INGRESS_JAIL}#g"  /etc/fstab.${WEB_JAIL}
-sed -i '' -e "s#%%JAIL_NAME_NGINX%%#${WEB_JAIL}#g"        /etc/fstab.${WEB_JAIL}
+if [ ! -z ${WEB_JAIL} ] ; then
+  cp fstab/fstab.nginx   /etc/fstab.${WEB_JAIL}
+
+  sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"                /etc/fstab.${WEB_JAIL}
+  sed -i '' -e "s#%%JAIL_NAME_INGRESS%%#${INGRESS_JAIL}#g"  /etc/fstab.${WEB_JAIL}
+  sed -i '' -e "s#%%JAIL_NAME_NGINX%%#${WEB_JAIL}#g"        /etc/fstab.${WEB_JAIL}
+fi
 
 
 # anvil configuration
@@ -28,17 +33,32 @@ done
 # this is harder to put into a for loop because the jail name and the cert name do corresponds
 # Yeah, where are the variables for the cert names?
 
-sed -i '' -e "s/%%MYCERTS%%/${INGRESS_JAIL_CERT}/g"                      ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RESTART="postfix"/g"       ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
 
-sed -i '' -e "s/%%MYCERTS%%/${WEB_JAIL_CERT}/g"                          ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e "s/%%SERVICES_RESTART%%//g"                                 ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e "s/%%SERVICES_RELOAD%%/SERVICES_RELOAD=\"nginx postfix\"/g" ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
+# anvil configuration
 
-sed -i '' -e "s/%%MYCERTS%%/${MX_JAIL_CERT}/g"                           ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RELOAD=\"postfix\"/g"      ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
-sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
+if [ ! -z ${INGRESS_JAIL} ] ; then
+  sed -i '' -e "s/%%MYCERTS%%/${INGRESS_JAIL_CERT}/g"                      ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RESTART="postfix"/g"       ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
+fi
+
+if [ ! -z ${WEB_JAIL} ] ; then
+  sed -i '' -e "s/%%MYCERTS%%/${WEB_JAIL_CERT}/g"                          ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RESTART%%//g"                                 ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RELOAD%%/SERVICES_RELOAD=\"nginx postfix\"/g" ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
+fi
+
+if [ ! -z ${MX_JAIL} ] ; then
+  sed -i '' -e "s/%%MYCERTS%%/${MX_JAIL_CERT}/g"                           ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RELOAD=\"postfix\"/g"      ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
+fi
+
+if [ ! -z ${PG_JAIL} ] ; then
+  sed -i '' -e "s/%%MYCERTS%%/${PG_JAIL_CERT}/g"                           ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RELOAD=\"postgresl\"/g"    ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
+fi
 
 # now set the sudo permissions for each jail
 

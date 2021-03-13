@@ -73,9 +73,19 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             # Look in roles/postgresql-server/templates/hosts/SERVERNAME/pg_hba.conf.j2
             #
 
-            # run the ansible scripts. The following scripts depend upon users
-            # created by that process
+            # The following is run on the jail host
+            # PG_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
+            # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
             #
+            # key for the ingress jail
+            #
+            sudo jexec $PG_JAIL mkdir /usr/local/etc/ssl
+            sudo jexec $PG_JAIL touch /usr/local/etc/ssl/${PG_JAIL_CERT}.key
+            sudo jexec $PG_JAIL chmod 440 /usr/local/etc/ssl/${PG_JAIL_CERT}.key
+            sudo jexec $PG_JAIL chown root:postgres /usr/local/etc/ssl/${PG_JAIL_CERT}.key
+
+            # copy the cert key into that file
+            sudo jexec $PG_JAIL sudoedit /usr/local/etc/ssl/${PG_JAIL_CERT}.key
 
      1. For ingress hosts:
 

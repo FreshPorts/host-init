@@ -39,7 +39,7 @@ FreeBSD: {
 }
 
 local: {
-   url: "pkg+http://fedex.unixathome.org/packages/122amd64-default-master-list/"
+   url: "pkg+http://fedex.int.unixathome.org/packages/122amd64-default-master-list/"
    mirror_type: "srv",
    signature_type: "PUBKEY",
    pubkey: "/etc/ssl/slocum.unixathome.org.cert",   
