@@ -34,7 +34,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         cd ~/src/mkjail/src/etc
         ln -s ~/src/host-init/mkjail.conf .
 
-1. Start runnig the configuration scripts
+1. Start running the configuration scripts
 
         cd ~/src/host-init
 
