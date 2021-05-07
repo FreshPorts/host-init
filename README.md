@@ -187,8 +187,12 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1.  Clone the required `git` repos for the `ingress` user:
 
-        jexec $INGRESS_JAIL -u ingress git clone https://git.FreeBSD.org/src.git ~ingress/repos/src
-        jexec $INGRESS_JAIL -u ingress git clone https://git.FreeBSD.org/doc.git ~ingress/repos/doc
+        sudo jexec $INGRESS_JAIL
+        su -l ingress
+        git clone https://git.FreeBSD.org/src.git ~ingress/repos/src
+        git clone https://git.FreeBSD.org/doc.git ~ingress/repos/doc
+        git clone https://git.FreeBSD.org/ports.git ~ingress/repos/ports
+
 
 1.  Set the `latest.X` values
 
@@ -205,8 +209,9 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1.  Get a copy of the subversion repos for the `freshports` user:
 
-        jexec $INGRESS_JAIL -u freshports svn co https://svn.freebsd.org/ports/head            ~freshports/ports-jail/var/db/repos/PORTS-head
-        jexec $INGRESS_JAIL -u freshports svn co https://svn.freebsd.org/ports/branches/2021Q1 ~freshports/ports-jail/var/db/repos/PORTS-2021Q1
+        jexec $INGRESS_JAIL
+        su -l freshports 
+        git clone https://git.FreeBSD.org/ports.git ~freshports/ports-jail/var/db/repos/PORTS-head
 
 
 This FreshPorts instance should now be running
