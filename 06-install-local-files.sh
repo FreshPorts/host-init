@@ -56,7 +56,7 @@ fi
 
 if [ ! -z ${PG_JAIL} ] ; then
   sed -i '' -e "s/%%MYCERTS%%/${PG_JAIL_CERT}/g"                           ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
-  sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RELOAD=\"postgresl\"/g"    ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
+  sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RELOAD=\"postgresql\"/g"   ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
   sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
 fi
 
