@@ -2,7 +2,7 @@
 
 This directory contains scripts to get a FreshPorts system off the ground.
 
-It uses [mkjail](https://github.com/mkjail/mkjail)
+It uses [mkjail](https://github.com/mkjail/mkjail), now a [FreeBSD port](https://www.freshports.org/sysutils/mkjail/).
 
 ## Before running the scripts
 
