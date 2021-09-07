@@ -62,6 +62,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudo ./04-start-jails.sh
 
 1. Configure the jails for running Ansible
+
         sudo ./05-prepare-jails-for-ansible.sh
 
         # if you haven't already, do the Ansible configuration outlined in
