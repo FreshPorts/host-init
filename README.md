@@ -29,10 +29,13 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         cd host-init
         sudo mkdir /usr/local/etc/host-init
         sudo cp -i jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
+        # adjust the ZPOOL and JAILROOT to your requirements in jail-vars.sh
 
-        # adjust the ZPOOL and JAILROOT to your requirements
-        cd ~/src/mkjail/src/etc
-        ln -s ~/src/host-init/mkjail.conf .
+
+1. Configure `mkjail.conf`:
+
+        # adjust the ZPOOL and JAILDATASET to your requirements
+        sudoedit  /usr/local/etc/mkjail.conf
 
 1. Start running the configuration scripts
 
