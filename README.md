@@ -72,14 +72,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
      1. For postgresql hosts:
 
-            ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
-
-            #
-            # use pg_hba.conf file as a template for additiions to the
-            # pg_hba.conf file on the PostgreSQL server.
-            # Look in roles/postgresql-server/templates/hosts/SERVERNAME/pg_hba.conf.j2
-            #
-
             # The following is run on the jail host
             # PG_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
             # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
@@ -94,9 +86,16 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             # copy the cert key into that file
             sudo jexec $PG_JAIL sudoedit /usr/local/etc/ssl/${PG_JAIL_CERT}.key
 
-     1. For ingress hosts:
+            ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
 
-            ansible-playbook freshports-ingress-git.yml --limit=aws-1.freshports-ingress01
+            #
+            # use pg_hba.conf file as a template for additiions to the
+            # pg_hba.conf file on the PostgreSQL server.
+            # Look in roles/postgresql-server/templates/hosts/SERVERNAME/pg_hba.conf.j2
+            #
+
+
+     1. For ingress hosts:
 
             # The following is run on the jail host
             # INGRESS_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
@@ -112,10 +111,9 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             # copy the cert key into that file
             sudo jexec $INGRESS_JAIL sudoedit /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
 
+            ansible-playbook freshports-ingress-git.yml --limit=aws-1.freshports-ingress01
 
      1. For nginx hosts:
-
-            ansible-playbook freshports-website-git.yml --limit=aws-1.freshports-nginx01
 
             # The following is run on the jail host
             # WEB_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
@@ -131,30 +129,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             # copy the cert key into that file
             sudo jexec $WEB_JAIL sudoedit /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
 
-            # this will attempt to start nginx, which will fail, because it does
-            # not have the certificate yet, but it is all configured to go.
-            # that is OK, because it is the last step performed.
-            # we could just run cert-puller first.
-
-     1. for the mx-ingress jail
-
-            ansible-playbook freshports-mx-ingress-mailserver.yml --limit=aws-1.freshports-mx-ingress04
-
-            # The following is run on the jail host
-            # MX_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
-            # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
-            #
-            #
-            # key for the mx jail
-            #
-            sudo jexec $MX_JAIL mkdir /usr/local/etc/ssl
-            sudo jexec $MX_JAIL touch /usr/local/etc/ssl/${MX_JAIL_CERT}.key
-            sudo jexec $MX_JAIL chmod 440 /usr/local/etc/ssl/${MX_JAIL_CERT}.key
-            sudo jexec $MX_JAIL chown root:www /usr/local/etc/ssl/${MX_JAIL_CERT}.key
-
-            # copy the cert key into that file
-            sudo jexec $MX_JAIL sudoedit /usr/local/etc/ssl/${MX_JAIL_CERT}.key
-
+            ansible-playbook freshports-website-git.yml --limit=aws-1.freshports-nginx01
 
 1. With the required packages installed, try fetching certs etc:
 
