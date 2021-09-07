@@ -55,10 +55,13 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         sudo cp -i jail.conf /etc/jail.conf
 
-1. Start the jails and configure them for running Ansible
-
+1. Start the jails
+   NOTE: This probably won't work, because it starts them in alphabetical order, ignore REQUIRES. You might
+   want to do `sudo service jails start` instead
+        
         sudo ./04-start-jails.sh
 
+1. Configure the jails for running Ansible
         sudo ./05-prepare-jails-for-ansible.sh
 
         # if you haven't already, do the Ansible configuration outlined in
