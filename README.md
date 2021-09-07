@@ -34,7 +34,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1. Configure `mkjail.conf`:
 
-        # adjust the ZPOOL and JAILDATASET to your requirements
+        # adjust the ZPOOL, JAILDATASET, and VERSION to your requirements
         sudoedit  /usr/local/etc/mkjail.conf
 
 1. Start running the configuration scripts
