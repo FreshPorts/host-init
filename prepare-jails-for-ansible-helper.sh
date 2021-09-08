@@ -33,13 +33,10 @@ GopjN8IyF6fx/5yN9EAp8GUCAwEAAQ==
 EOF
 
 mkdir -p /usr/local/etc/pkg/repos
+echo "FreeBSD: { enabled: no }" > /usr/local/etc/pkg/repos/FreeBSD.conf
 cat << EOF > /usr/local/etc/pkg/repos/local.conf
-FreeBSD: {
-   enabled: false
-}
-
 local: {
-   url: "pkg+http://fedex.int.unixathome.org/packages/122amd64-default-master-list/"
+   url: "pkg+http://fedex.unixathome.org/packages/130amd64-default-primary/"
    mirror_type: "srv",
    signature_type: "PUBKEY",
    pubkey: "/etc/ssl/slocum.unixathome.org.cert",   
