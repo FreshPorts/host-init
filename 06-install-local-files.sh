@@ -4,14 +4,6 @@
 
 # install the fstab files for the jails
 
-if [ ! -z ${INGRESS_JAIL} ] ; then
-  cp fstab/fstab.ingress /etc/fstab.${INGRESS_JAIL}
-
-  # now massage that data
-  sed -i '' -e "s#%%JAIL_ROOT%%#$jailroot#g"                /etc/fstab.${INGRESS_JAIL}
-  sed -i '' -e "s#%%JAIL_NAME%%#${INGRESS_JAIL}#g"          /etc/fstab.${INGRESS_JAIL}
-fi
-
 if [ ! -z ${WEB_JAIL} ] ; then
   cp fstab/fstab.nginx   /etc/fstab.${WEB_JAIL}
 
@@ -48,12 +40,6 @@ if [ ! -z ${WEB_JAIL} ] ; then
   sed -i '' -e "s/%%SERVICES_RELOAD%%/SERVICES_RELOAD=\"nginx postfix\"/g" ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
 fi
 
-if [ ! -z ${MX_JAIL} ] ; then
-  sed -i '' -e "s/%%MYCERTS%%/${MX_JAIL_CERT}/g"                           ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
-  sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RELOAD=\"postfix\"/g"      ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
-  sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${MX_JAIL}/usr/local/etc/anvil/cert-puller.conf
-fi
-
 if [ ! -z ${PG_JAIL} ] ; then
   sed -i '' -e "s/%%MYCERTS%%/${PG_JAIL_CERT}/g"                           ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
   sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RELOAD=\"postgresql\"/g"   ${jailroot}/${PG_JAIL}/usr/local/etc/anvil/cert-puller.conf
@@ -68,10 +54,10 @@ do
   mkdir -p ${jailroot}/$jail/usr/local/etc/sudoers.d/
 
   # set sudo permissions for anvil re cert-puller
-  sudo jexec $jail /usr/local/bin/cert-puller -s > ${jailroot}/$jail/usr/local/etc/sudoers.d/anvil
+  jexec $jail /usr/local/bin/cert-puller -s > ${jailroot}/$jail/usr/local/etc/sudoers.d/anvil
 
   # pull down the certs
-  sudo jexec -U anvil $jail /usr/local/bin/cert-puller
+  jexec -U anvil $jail sh /usr/local/bin/cert-puller
 done
 
 # anvil configuration
