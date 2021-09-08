@@ -6,6 +6,8 @@
 if [ ! -d "${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos/PORTS-head" ]
 then
   echo directory does not exist
+  echo this script needs to use the jail in the jail
+  exit
   cd ${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos
   svn co svn://svn.freebsd.org/ports/head PORTS-head
 else
