@@ -21,9 +21,6 @@ udp6_services_ext_if="{ 53, 123, 1194, 546}" # 546 == dhcpv6-client
 JAIL_FRESHPORTS_INGRESS="127.163.0.10"
 JAIL_FRESHPORTS_INGRESS_IPV6="fd80::10"
 
-JAIL_FRESHPORTS_MX="127.163.0.25"
-JAIL_FRESHPORTS_MX_IPV6="fd00::25"
-
 JAIL_FRESHPORTS_WWW="127.163.0.80"
 JAIL_FRESHPORTS_WWW_IPV6="fd00::80"
 
@@ -52,7 +49,8 @@ set skip on lo
 scrub in on $PUBLIC
 
 
-nat on $PUBLIC from 127.163.0.0/24 to any -> $MY_MAIN_IP
+nat on $PUBLIC from 127.163.0.0/16 to any -> $MY_MAIN_IP
+
 
 
 
@@ -62,11 +60,6 @@ rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = https -> $JAIL_
 
 rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = http  -> $JAIL_FRESHPORTS_WWW_IPV6
 rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = https -> $JAIL_FRESHPORTS_WWW_IPV6
-
-# redirect incoming smtp
-
-rdr pass on $PUBLIC inet  proto tcp from any to ($PUBLIC) port = smtp -> $JAIL_FRESHPORTS_MX
-rdr pass on $PUBLIC inet6 proto tcp from any to ($PUBLIC) port = smtp -> $JAIL_FRESHPORTS_MX_IPV6
 
 
 
