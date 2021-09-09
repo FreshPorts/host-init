@@ -8,7 +8,7 @@ jexec ${INGRESS_JAIL} zfs set mountpoint=/var/db/mkjail main_tank/freshports/jai
 jexec ${INGRESS_JAIL} zfs mount main_tank/freshports/jailed/ingress01/jails
 jexec ${INGRESS_JAIL} zfs mount main_tank/freshports/jailed/ingress01/mkjail
 
-jexec ${INGRESS_JAIL} pkg install mkjail
+jexec ${INGRESS_JAIL} pkg install -y mkjail
 
 cat << EOF > ${jailroot}/${INGRESS_JAIL}/usr/local/etc/mkjail.conf
 # mkjail config file
@@ -18,9 +18,13 @@ cat << EOF > ${jailroot}/${INGRESS_JAIL}/usr/local/etc/mkjail.conf
 ZPOOL="${jailzpool}"
 
 # Set the jail dataset name (without the zpool name).
-# For example, jail foo will be created in $ZPOOL/$JAILDATASET/foo
+# For example, jail foo will be created in \$ZPOOL/\$JAILDATASET/foo
 # DEFAULT: jails
 JAILDATASET="freshports/jailed/${INGRESS_JAIL}/jails"
+
+# mkjail will create $ZPOOL/$MKJAILDATASET/${VERSION}
+# by default, this is mkjail
+MKJAILDATASET="freshports/jailed/${INGRESS_JAIL}/mkjail"
 
 # Set jail root filesystem path.
 # This is where the jails are mounted.
@@ -38,6 +42,8 @@ SETS="base"
 EOF
 
 jexec ${INGRESS_JAIL} mkjail create -a amd64 -j freshports -v 13.0-RELEASE
+
+jexec ${INGRESS_JAIL} sysrc jail_enable="YES"
 
 cat << EOF > ${jailroot}/${INGRESS_JAIL}/etc/jail.conf
 exec.start = "/bin/sh /etc/rc";
@@ -72,7 +78,7 @@ echo "FreeBSD: { enabled: no }" > ${jailroot}/${INGRESS_JAIL}/jails/freshports/u
 
 cat << EOF > ${jailroot}/${INGRESS_JAIL}/jails/freshports/usr/local/etc/pkg/repos/local.conf
 local: {
-   url: "pkg+http://fedex.unixathome.org/packages/13amd64-default-prumar/"
+   url: "pkg+http://fedex.unixathome.org/packages/13amd64-default-primary/"
    mirror_type: "srv",
    signature_type: "PUBKEY",
    pubkey: "/etc/ssl/slocum.unixathome.org.cert",   
@@ -81,7 +87,7 @@ local: {
 EOF
 
 
-cat << EOF > {jailroot}/${INGRESS_JAIL}/jails/freshports/etc/ssl/slocum.unixathome.org.cert
+cat << EOF > ${jailroot}/${INGRESS_JAIL}/jails/freshports/etc/ssl/slocum.unixathome.org.cert
 -----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAuveHTXwrwGmdWG6oFWgN
 R/7bOQiQIE9iFmXmy4/MX9+01zMh2mjTfIOFe8IE1QqOK7X5EkVqhIdHCFg1Cg/x
@@ -98,16 +104,14 @@ GopjN8IyF6fx/5yN9EAp8GUCAwEAAQ==
 -----END PUBLIC KEY-----
 EOF
  
- 
-cat << EOF > {jailroot}/${INGRESS_JAIL}/jails/freshports/etc/resolv.conf
+
+cat << EOF > ${jailroot}/${INGRESS_JAIL}/jails/freshports/etc/resolv.conf
 search unixathome.org int.unixathome.org
-nameserver 10.55.0.1 
-nameserver 10.55.0.73
-nameserver 10.55.0.13
+nameserver 127.163.0.53
 EOF
  
  
-cat << EOF > {jailroot}/${INGRESS_JAIL}/jails/freshports/etc/rc.conf
+cat << EOF > ${jailroot}/${INGRESS_JAIL}/jails/freshports/etc/rc.conf
 cron_enable="NO"
 syslogd_enable="NO"
 sendmail_enable="NO"
@@ -118,4 +122,4 @@ EOF
 
 jexec ${INGRESS_JAIL} service jail start
 
-jexec ${INGRESS_JAIL} git clone https://git.FreeBSD.org/ports.git /jails/freshports/usr/
+#jexec ${INGRESS_JAIL} git clone https://git.FreeBSD.org/ports.git /jails/freshports/usr/ports

@@ -21,10 +21,6 @@ JAILS="$INGRESS_JAIL $WEB_JAIL $PG_JAIL"
 # see also https://git.langille.org/FreshPorts/helper_scripts/src/branch/master/website-clear-all-cache.sample
 caching_sets="categories commits daily general news packages pages ports spooling"
 
-# path to mkjail script
-# as obtained from https://github.com/mkjail/mkjail
-mkjail_path="/usr/home/ec2-user/src/mkjail"
-
 # which zpool do the jails live in
 jailzpool=data01
 
@@ -32,7 +28,7 @@ jailzpool=data01
 datazpool=${jailzpool}
 
 # what FreeBSD version are we grabbing
-VERSION=12.2
+VERSION=13.0
 
 # the mountpoint for all jails
 jailroot=/jails

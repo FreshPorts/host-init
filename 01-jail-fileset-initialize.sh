@@ -24,8 +24,8 @@ fi
 
 if [ ! -z "${INGRESS_JAIL}" ]
 then
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/jails
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/mkjail
+zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/jailed/${INGRESS_JAIL}/jails
+zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/jailed/${INGRESS_JAIL}/mkjail
 zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html
 zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/spooling
 zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/message-queues

@@ -57,7 +57,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1. Start the jails
    NOTE: This probably won't work, because it starts them in alphabetical order, ignore REQUIRES. You might
-   want to do `sudo service jails start` instead
+   want to do `sudo service jail start` instead
         
         sudo ./04-start-jails.sh
 
@@ -78,21 +78,23 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             #
             # key for the ingress jail
             #
+	    # we use 770 because the postgres user is created later by the playbook
             sudo jexec $PG_JAIL mkdir /usr/local/etc/ssl
             sudo jexec $PG_JAIL touch /usr/local/etc/ssl/${PG_JAIL_CERT}.key
             sudo jexec $PG_JAIL chmod 440 /usr/local/etc/ssl/${PG_JAIL_CERT}.key
-            sudo jexec $PG_JAIL chown root:postgres /usr/local/etc/ssl/${PG_JAIL_CERT}.key
+            sudo jexec $PG_JAIL chown root:770 /usr/local/etc/ssl/${PG_JAIL_CERT}.key
 
             # copy the cert key into that file
             sudo jexec $PG_JAIL sudoedit /usr/local/etc/ssl/${PG_JAIL_CERT}.key
 
-            ansible-playbook jail-postgresql.yml --limit=pg02.int.unixathome.org
+            ansible-playbook jail-postgresql.yml --limit=x8dtu-freshports-pg01
 
-            #
-            # use pg_hba.conf file as a template for additiions to the
-            # pg_hba.conf file on the PostgreSQL server.
-            # Look in roles/postgresql-server/templates/hosts/SERVERNAME/pg_hba.conf.j2
-            #
+	    # that may end with:
+	    #
+	    # fatal: [x8dtu-freshports-pg01]: FAILED! => {"changed": false, "msg": "pg_ctl: could not start server\nExamine the log output.\n"}
+	    #
+	    # if so, go ahead with the next step. 06-install-local-files.sh should fix that
+	    #
 
 
      1. For ingress hosts:
@@ -106,7 +108,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             sudo jexec $INGRESS_JAIL mkdir /usr/local/etc/ssl
             sudo jexec $INGRESS_JAIL touch /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
             sudo jexec $INGRESS_JAIL chmod 440 /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
-            sudo jexec $INGRESS_JAIL chown root:www /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
+            sudo jexec $INGRESS_JAIL chown root:wheel /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
 
             # copy the cert key into that file
             sudo jexec $INGRESS_JAIL sudoedit /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key

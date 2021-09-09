@@ -61,3 +61,18 @@ do
 done
 
 # anvil configuration
+
+zfs set canmount=off                                             main_tank/freshports/ingress01/var/db/freshports
+zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/freshports main_tank/freshports/ingress01/var/db/freshports
+
+zfs inherit mountpoint main_tank/freshports/ingress01/var/db/freshports/cache/html
+zfs inherit mountpoint main_tank/freshports/ingress01/var/db/freshports/cache/spooling
+zfs inherit mountpoint main_tank/freshports/ingress01/var/db/freshports/message-queues
+zfs inherit mountpoint main_tank/freshports/ingress01/var/db/freshports/repos
+
+
+zfs set canmount=off                                             main_tank/freshports/ingress01/var/db/ingress
+zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/ingress    main_tank/freshports/ingress01/var/db/ingress
+
+zfs inherit mountpoint main_tank/freshports/ingress01/var/db/ingress/message-queues
+zfs inherit mountpoint main_tank/freshports/ingress01/var/db/ingress/repos
