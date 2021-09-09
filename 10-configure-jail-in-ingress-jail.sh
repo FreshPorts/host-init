@@ -122,4 +122,10 @@ EOF
 
 jexec ${INGRESS_JAIL} service jail start
 
+#
+# if bootstrap fails with Latest/pkg.txz.pubkeysig: Not Found
+# create a symlink: sudo ln -s pkg.pkg.pubkeysig pkg.txz.pubkeysig
+#
+jexec ${INGRESS_JAIL} jexec freshports pkg -y bootstrap
+
 #jexec ${INGRESS_JAIL} git clone https://git.FreeBSD.org/ports.git /jails/freshports/usr/ports
