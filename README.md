@@ -78,7 +78,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             #
             # key for the ingress jail
             #
-	    # we use 770 because the postgres user is created later by the playbook
+            # we use 770 because the postgres user is created later by the playbook
             sudo jexec $PG_JAIL mkdir /usr/local/etc/ssl
             sudo jexec $PG_JAIL touch /usr/local/etc/ssl/${PG_JAIL_CERT}.key
             sudo jexec $PG_JAIL chmod 440 /usr/local/etc/ssl/${PG_JAIL_CERT}.key
@@ -89,12 +89,12 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
             ansible-playbook jail-postgresql.yml --limit=x8dtu-freshports-pg01
 
-	    # that may end with:
-	    #
-	    # fatal: [x8dtu-freshports-pg01]: FAILED! => {"changed": false, "msg": "pg_ctl: could not start server\nExamine the log output.\n"}
-	    #
-	    # if so, go ahead with the next step. 06-install-local-files.sh should fix that
-	    #
+            # that may end with:
+            #
+            # fatal: [x8dtu-freshports-pg01]: FAILED! => {"changed": false, "msg": "pg_ctl: could not start server\nExamine the log output.\n"}
+            #
+            # if so, go ahead with the next step. 06-install-local-files.sh should fix that
+            #
 
 
      1. For ingress hosts:
