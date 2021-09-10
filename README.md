@@ -19,7 +19,7 @@ These are the scripts to run after the above.
 1. Configure the host itself by running this Ansible script. This will
 install the prerequisite packages such as git, unbound, ntpd, etc.
 
-        ansible-playbook freshports-host.yml --limit=aws-1.freshports.org
+        ansible-playbook freshports-host.yml --limit=x8dtu-freshports.org
 
 1. Get the `host-init` scripts
     
@@ -113,7 +113,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             # copy the cert key into that file
             sudo jexec $INGRESS_JAIL sudoedit /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
 
-            ansible-playbook freshports-ingress-git.yml --limit=aws-1.freshports-ingress01
+            ansible-playbook freshports-ingress-git.yml --limit=x8dtu-freshports-ingress01
 
      1. For nginx hosts:
 
@@ -132,7 +132,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             sudo jexec $WEB_JAIL sudoedit /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
 
             # adjust `/etc/jail.conf` and enable the ZFS filesystems
-            ansible-playbook freshports-website-git.yml --limit=aws-1.freshports-nginx01
+            ansible-playbook freshports-website-git.yml --limit=x8dtu-freshports-nginx01
 
 1. With the required packages installed, try fetching certs etc:
 
@@ -144,9 +144,9 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1. With the certs downloaded and installed, we can do the final configurations.
 
-        ansible-playbook freshports-configuration-ingress.yml --limit=aws-1.freshports-ingress01
+        ansible-playbook freshports-configuration-ingress.yml --limit=x8dtu-freshports-ingress01
 
-        ansible-playbook freshports-configuration-website.yml --limit=aws-1.freshports-nginx01
+        ansible-playbook freshports-configuration-website.yml --limit=x8dtu-freshports-nginx01
 
 1. Now that the jails have been configured, we can mount all the filesystems
 
