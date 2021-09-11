@@ -76,3 +76,10 @@ zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/ingress    main_tank/fresh
 
 zfs inherit mountpoint main_tank/freshports/ingress01/var/db/ingress/message-queues
 zfs inherit mountpoint main_tank/freshports/ingress01/var/db/ingress/repos
+
+
+# aliases for dma - make sure mail for root gets out
+for jail in $JAILS
+do
+  sed -i '' -e "s/# root:	me@my.domain/root:	dan@langille.org/g"                           ${jailroot}/${jail}/etc/aliases
+done

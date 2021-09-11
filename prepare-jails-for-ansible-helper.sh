@@ -36,7 +36,7 @@ mkdir -p /usr/local/etc/pkg/repos
 echo "FreeBSD: { enabled: no }" > /usr/local/etc/pkg/repos/FreeBSD.conf
 cat << EOF > /usr/local/etc/pkg/repos/local.conf
 local: {
-   url: "pkg+http://fedex.unixathome.org/packages/130amd64-default-primary/"
+   url: "pkg+http://fedex.unixathome.org/packages/%%REPO_TREE%%/"
    mirror_type: "srv",
    signature_type: "PUBKEY",
    pubkey: "/etc/ssl/slocum.unixathome.org.cert",   
@@ -65,6 +65,3 @@ auth required pam_deny.so
 account include system
 session required pam_permit.so
 EOF
-
-sysrc sshd_enable="YES"
-service sshd start

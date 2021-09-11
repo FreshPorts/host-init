@@ -10,6 +10,12 @@ do
   jexec $jail sysrc resolv_enable="NO"
 
   cp -a prepare-jails-for-ansible-helper.sh ${jailroot}/$jail/
+
+  # adjust the repo on a per-jail basis
+  eval repo_tree=\$${jail}_REPO_TREE
+  sed -i '' -e "s#%%REPO_TREE%%#$repo_tree#g" ${jailroot}/$jail/prepare-jails-for-ansible-helper.sh
+
   jexec $jail /prepare-jails-for-ansible-helper.sh
   rm ${jailroot}/$jail/prepare-jails-for-ansible-helper.sh
 done
+
