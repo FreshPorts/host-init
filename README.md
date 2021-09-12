@@ -74,7 +74,10 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
             # The following is run on the jail host
             # PG_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
-            # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
+            # bring those variables into your shell: 
+            
+            . /usr/local/etc/host-init/jail-vars.sh
+            
             #
             # key for the ingress jail
             #
@@ -101,7 +104,10 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
             # The following is run on the jail host
             # INGRESS_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
-            # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
+            # bring those variables into your shell:
+            
+            . /usr/local/etc/host-init/jail-vars.sh
+            
             #
             # key for the ingress jail
             #
@@ -119,7 +125,10 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
             # The following is run on the jail host
             # WEB_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
-            # bringing those variables into your shell: . /usr/local/etc/host-init/jail-vars.sh
+            # bringing those variables into your shell:
+            
+            . /usr/local/etc/host-init/jail-vars.sh
+            
             #
             # key for the nginx jail
             #
