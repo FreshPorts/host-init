@@ -44,7 +44,7 @@ local: {
 }
 EOF
 
-env ASSUME_ALWAYS_YES=YES pkg -4 bootstrap
+env ASSUME_ALWAYS_YES=YES pkg -4 install pkg
 
 pkg -4 install -y sudo
 pkg -4 install -y python

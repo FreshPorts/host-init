@@ -2,11 +2,11 @@
 
 . /usr/local/etc/host-init/jail-vars.sh
 
-jexec ${INGRESS_JAIL} zfs set mountpoint=/jails         main_tank/freshports/jailed/ingress01/jails
-jexec ${INGRESS_JAIL} zfs set mountpoint=/var/db/mkjail main_tank/freshports/jailed/ingress01/mkjail
+jexec ${INGRESS_JAIL} zfs set mountpoint=/jails         main_tank/freshports/ingress01/jails
+jexec ${INGRESS_JAIL} zfs set mountpoint=/var/db/mkjail main_tank/freshports/ingress01/mkjail
 
-jexec ${INGRESS_JAIL} zfs mount main_tank/freshports/jailed/ingress01/jails
-jexec ${INGRESS_JAIL} zfs mount main_tank/freshports/jailed/ingress01/mkjail
+jexec ${INGRESS_JAIL} zfs mount main_tank/freshports/ingress01/jails
+jexec ${INGRESS_JAIL} zfs mount main_tank/freshports/ingress01/mkjail
 
 jexec ${INGRESS_JAIL} pkg install -y mkjail
 

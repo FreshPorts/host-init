@@ -41,7 +41,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         cd ~/src/host-init
 
-        sudo ./00-rc.conf-settings
         sudo ./01-jail-fileset-initialize.sh
 
         # start stuff on the host which are needed by the jails
@@ -56,10 +55,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudo cp -i jail.conf /etc/jail.conf
 
 1. Start the jails
-   NOTE: This probably won't work, because it starts them in alphabetical order, ignore REQUIRES. You might
-   want to do `sudo service jail start` instead
-        
-        sudo ./04-start-jails.sh
+
+        sudo service jail start
 
 1. Configure the jails for running Ansible
 

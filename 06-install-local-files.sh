@@ -2,7 +2,7 @@
 
 . /usr/local/etc/host-init/jail-vars.sh
 
-# install the fstab files for the jails
+# install the fstab files for the jails (well, just nginx jail so far...
 
 if [ ! -z ${WEB_JAIL} ] ; then
   cp fstab/fstab.nginx   /etc/fstab.${WEB_JAIL}
@@ -62,24 +62,37 @@ done
 
 # anvil configuration
 
-zfs set canmount=off                                             main_tank/freshports/ingress01/var/db/freshports
-zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/freshports main_tank/freshports/ingress01/var/db/freshports
+zfs set canmount=off                                             main_tank/freshports/${INGRESS_JAIL}/var/db/freshports
+zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/freshports main_tank/freshports/${INGRESS_JAIL}/var/db/freshports
 
-zfs inherit mountpoint main_tank/freshports/ingress01/var/db/freshports/cache/html
-zfs inherit mountpoint main_tank/freshports/ingress01/var/db/freshports/cache/spooling
-zfs inherit mountpoint main_tank/freshports/ingress01/var/db/freshports/message-queues
-zfs inherit mountpoint main_tank/freshports/ingress01/var/db/freshports/repos
+#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html
+#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/freshports/cache/spooling
+#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/freshports/message-queues
+#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/freshports/repos
 
 
-zfs set canmount=off                                             main_tank/freshports/ingress01/var/db/ingress
-zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/ingress    main_tank/freshports/ingress01/var/db/ingress
+zfs set canmount=off                                             main_tank/freshports/${INGRESS_JAIL}/var/db/ingress
+zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/ingress    main_tank/freshports/${INGRESS_JAIL}/var/db/ingress
 
-zfs inherit mountpoint main_tank/freshports/ingress01/var/db/ingress/message-queues
-zfs inherit mountpoint main_tank/freshports/ingress01/var/db/ingress/repos
+#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/ingress/message-queues
+#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/ingress/repos
 
 
 # aliases for dma - make sure mail for root gets out
 for jail in $JAILS
 do
-  sed -i '' -e "s/# root:	me@my.domain/root:	dan@langille.org/g"                           ${jailroot}/${jail}/etc/aliases
+  sed -i '' -e "s/# root:	me@my.domain/root:	dan@langille.org/g"  ${jailroot}/${jail}/etc/mail/aliases
 done
+
+
+PWD=$(pwd)
+# fix broken logcheck installs
+for jail in $JAILS
+do
+  # the jails are not running at this point, we can't use jexec
+  cd ${jailroot}/${jail}/usr/local/etc/logcheck
+  chgrp logcheck . cracking.d ignore.d.paranoid ignore.d.server ignore.d.workstation violations.d violations.ignore.d
+done
+
+# go back to where we were
+cd ${PWD}

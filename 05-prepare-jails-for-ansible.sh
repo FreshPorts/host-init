@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 . /usr/local/etc/host-init/jail-vars.sh
 
 for jail in ${JAILS}
@@ -14,6 +14,9 @@ do
   # adjust the repo on a per-jail basis
   eval repo_tree=\$${jail}_REPO_TREE
   sed -i '' -e "s#%%REPO_TREE%%#$repo_tree#g" ${jailroot}/$jail/prepare-jails-for-ansible-helper.sh
+
+  # bootstrap cannot run from a non-FreeBSD repo
+  jexec $jail env ASSUME_ALWAYS_YES=YES pkg -4 bootstrap
 
   jexec $jail /prepare-jails-for-ansible-helper.sh
   rm ${jailroot}/$jail/prepare-jails-for-ansible-helper.sh
