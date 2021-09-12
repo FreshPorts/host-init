@@ -46,10 +46,10 @@ EOF
 
 env ASSUME_ALWAYS_YES=YES pkg -4 install pkg
 
-pkg -4 install -y sudo
-pkg -4 install -y python
-pkg -4 install -y security/pam_ssh_agent_auth
-pkg -4 install -y ca_root_nss
+pkg -4 install -y sudo python security/pam_ssh_agent_auth ca_root_nss
+#pkg -4 install -y python
+#pkg -4 install -y security/pam_ssh_agent_auth
+#pkg -4 install -y ca_root_nss
 
 cat << EOF > /usr/local/etc/sudoers
 Defaults env_keep += "SSH_CLIENT SSH_CONNECTION SSH_TTY SSH_AUTH_SOCK",timestamp_timeout=0

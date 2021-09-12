@@ -159,7 +159,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudo service jail stop
  
         sudoedit /etc/jail.conf
-        # uncomment things which say AFTER CONFIG
+        # uncomment things which say commented out until after step 10
 
 1.  Start the jails again
 
@@ -175,6 +175,29 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         # the jails need to be started for this one
         sudo ./08-newsyslog.conf
+
+1.  Uncomment the remaining items in `/etc/jail.conf`. Look for `commented out until after step 13`:
+
+        sudo service jail stop
+        sudoedit /etc/jail.conf
+        sudo service jail start
+
+1.  Configure the freshports jail within the ingress jail:
+
+        sudo ./10-configure-jail-in-ingress-jail.sh
+
+1.  Add snmpd credentials for snmpd in the PostgreSQL and Nginx jails:
+
+        # https://dan.langille.org/2021/04/03/net-mgmt-net-snmpd-wants-snmp-snmpd-conf/
+        sudo jexec $JAIL
+        mkdir /snmp
+
+        # https://dan.langille.org/2015/09/07/installing-net-mgmtnet-snmpd-and-getting-it-running/
+        service snmpd stop
+        net-snmp-config --create-snmpv3-user -ro -x AES -a SHA -A 'supersecretauth' -X supersecretXX someone
+        service snmpd start
+
+        # then add this host to LibreNMS
 
 1.  Clone the required `git` repos for the `ingress` user:
 
