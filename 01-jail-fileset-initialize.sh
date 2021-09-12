@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 . /usr/local/etc/host-init/jail-vars.sh
 
@@ -24,15 +24,17 @@ fi
 
 if [ ! -z "${INGRESS_JAIL}" ]
 then
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/jailed/${INGRESS_JAIL}/jails
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/jailed/${INGRESS_JAIL}/mkjail
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/spooling
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/message-queues
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/repos
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/message-queues
-zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/repos
-zfs snapshot ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html@empty
+  zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/jailed/${INGRESS_JAIL}
+  zfs create -p                                       ${datazpool}/freshports/jailed/${INGRESS_JAIL}/jails
+  zfs create -p                                       ${datazpool}/freshports/jailed/${INGRESS_JAIL}/mkjail
+  zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/spooling
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/message-queues
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/repos
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/message-queues
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/repos
+  zfs snapshot ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html@empty
 fi
 
 # One day, you might ask, why put var/db/freshports in the filesystem name? Why not shorter?
@@ -44,6 +46,6 @@ if [ ! -z "${WEB_JAIL}" ]
 then
 for set in $caching_sets
 do
-  zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${WEB_JAIL}/var/db/freshports/cache/$set
+  zfs create -p ${datazpool}/freshports/jailed/${WEB_JAIL}/var/db/freshports/cache/$set
 done
 fi
