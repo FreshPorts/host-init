@@ -274,11 +274,10 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         89d0233560e4ba181d73143fc25248b407120e09
         EOF
 
-1.  Get a copy of the subversion repos for the `freshports` user:
+1.  Get a copy of the git ports repo for the `freshports` jail:
 
         jexec $INGRESS_JAIL
-        su -l freshports 
-        git clone https://git.FreeBSD.org/ports.git ~freshports/ports-jail/var/db/repos/PORTS-head
+        git clone https://git.FreeBSD.org/ports.git /jails/usr/ports
 
 
 This FreshPorts instance should now be running
