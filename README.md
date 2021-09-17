@@ -242,6 +242,14 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudo zfs  mount zroot/freshports/${INGRESS_JAIL}/ports
         sudo zfs  mount zroot/freshports/${INGRESS_JAIL}/repos
 
+1.  Create the database
+
+        sudo jexec ${PG_JAIL}
+        pkg install databases/postgresql13-plperl
+        su -l postgres
+        createdb -T template0 -E SQL_ASCII freshports.org
+        # set the -j parameter to the number of CPUs on this host
+        pg_restore -j 16 -d freshports.org freshports.org.dump
 
 
 1.  Clone the required `git` repos for the `ingress` user:
