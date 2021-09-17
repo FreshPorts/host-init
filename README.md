@@ -203,8 +203,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
     ingress node
 
-    * /var/db/ingress/repos       (about 10 GB)
-    * /jails/freshports/usr/ports (about 50 GB)
+    * `/var/db/ingress/repos`       (about 10 GB)
+    * `/jails/freshports/usr/ports` (about 50 GB)
 
     For creation:
 
