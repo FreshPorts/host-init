@@ -198,13 +198,58 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         service snmpd start
 
         # then add this host to LibreNMS
+        
+1.  Special file systems for FreshPorts
+
+    ingress node
+
+    * /var/db/ingress/repos       (about 10 GB)
+    * /jails/freshports/usr/ports (about 50 GB)
+
+    For creation:
+
+        sudo zfs create -o canmount=off                                                 zroot/freshports
+        sudo zfs create -o canmount=off                                                 zroot/freshports/ingress01
+        sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/var/db/ingress/repos       zroot/freshports/ingress01/repos
+        sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/jails/freshports/usr/ports zroot/freshports/ingress01/ports
+
+        # these need non root:wheel permissions
+        # this needs to be done after the ingress user is created
+        jexec ${INGRESS_JAIL} chown ingress:ingress /var/db/ingress/repos
+
+
+        # before you create this, you'll want to move the old one away
+        sudo jexec ${PG_JAIL} service postgresql stop
+        sudo mv /jails/${PG_JAIL}/var/db/postgres /jails/${PG_JAIL}/var/db/postgres.old
+
+        # this needs to be done after postgresql server is installed but before the initdb
+        # that may be tricky because 
+        sudo zfs create -o canmount=off                                 zroot/freshports/${PG_JAIL}
+        sudo zfs create -o mountpoint=/jails/${PG_JAIL}/var/db/postgres zroot/freshports/${PG_JAIL}/postgres
+        sudo jexec ${PG_JAIL} chown postgres:postgres /var/db/postgres
+        
+        sudo mv /jails/${PG_JAIL}/var/db/postgres.old/* /jails/${PG_JAIL}/var/db/postgres
+        sudo jexec ${PG_JAIL} service postgresql start
+
+    Useful at times, not part of the setup.
+
+        sudo zfs umount zroot/freshports/${INGRESS_JAIL}/ports
+        sudo zfs umount zroot/freshports/${INGRESS_JAIL}/repos
+
+        # just to be sure we're not overlaing something unintenionally
+        ls -l /jails/${INGRESS_JAIL}/var/db/ingress/repos /jails/${INGRESS_JAIL}/jails/freshports/usr/ports
+
+        sudo zfs  mount zroot/freshports/${INGRESS_JAIL}/ports
+        sudo zfs  mount zroot/freshports/${INGRESS_JAIL}/repos
+
+
 
 1.  Clone the required `git` repos for the `ingress` user:
 
         sudo jexec $INGRESS_JAIL
         su -l ingress
-        git clone https://git.FreeBSD.org/src.git ~ingress/repos/src
-        git clone https://git.FreeBSD.org/doc.git ~ingress/repos/doc
+        git clone https://git.FreeBSD.org/src.git   ~ingress/repos/src
+        git clone https://git.FreeBSD.org/doc.git   ~ingress/repos/doc
         git clone https://git.FreeBSD.org/ports.git ~ingress/repos/ports
 
 
