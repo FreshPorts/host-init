@@ -244,10 +244,30 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1.  Create the database
 
+        # the roles and users need to be created first
+        # run this ansible script for the ingress host in question
+        ansible-playbook freshports-database-passwords.yml --limit=x8dtu-freshports-ingress01
+
+        # This will create a file on the ingress host at /root/freshports-roles.sql
+        # copy it to the PG jail
+
+        sudo cp -i /jails/$INGRESS_JAIL/root/freshports-roles.sql /jails/$PG_JAIL/var/db/postgres
+        sudo jexec $PG_JAIL chown postgres:postgres /var/db/postgres/freshports-roles.sql
+
         sudo jexec ${PG_JAIL}
         pkg install databases/postgresql13-plperl
         su -l postgres
         createdb -T template0 -E SQL_ASCII freshports.org
+	psql
+        begin;
+        \i freshports-roles.sql
+
+        # if all good:
+        commit;
+
+        # otherise:
+        rollback;
+
         # set the -j parameter to the number of CPUs on this host
         pg_restore -j 16 -d freshports.org freshports.org.dump
 
