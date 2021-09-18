@@ -258,7 +258,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         pkg install databases/postgresql13-plperl
         su -l postgres
         createdb -T template0 -E SQL_ASCII freshports.org
-	psql
+
+        psql
         begin;
         \i freshports-roles.sql
 
@@ -269,7 +270,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         rollback;
 
         # set the -j parameter to the number of CPUs on this host
-        pg_restore -j 16 -d freshports.org freshports.org.dump
+	# Timing is not required. I just like it.
+        time pg_restore -j 16 -d freshports.org freshports.org.dump
 
 
 1.  Clone the required `git` repos for the `ingress` user:
