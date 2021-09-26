@@ -270,7 +270,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         rollback;
 
         # set the -j parameter to the number of CPUs on this host
-	# Timing is not required. I just like it.
+        # Timing is not required. I just like it.
         time pg_restore -j 16 -d freshports.org freshports.org.dump
 
 
