@@ -299,7 +299,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 1.  Get a copy of the git ports repo for the `freshports` jail:
 
         jexec $INGRESS_JAIL
-        git clone https://git.FreeBSD.org/ports.git /jails/usr/ports
+        git clone https://git.FreeBSD.org/ports.git /jails/freshports/usr/ports
 
 
 This FreshPorts instance should now be running
