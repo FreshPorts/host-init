@@ -283,18 +283,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         git clone https://git.FreeBSD.org/ports.git ~ingress/repos/ports
 
 
-1.  Set the `latest.X` values
-
-
-        # from https://news.freshports.org/2020/12/21/moving-to-the-freebsd-git-repo-for-src/
-        sudo jexec $INGRESS_JAIL sudo -u ingress tee /var/db/ingress/repos/latest.src << EOF >/dev/null
-        3cc0c0d66a065554459bd2f9b4f80cc07426464a
-        EOF
-
-        # from https://news.freshports.org/2020/12/17/moving-devgit-freshports-org-from-github-to-git-freebsd-org/
-        sudo jexec $INGRESS_JAIL sudo -u ingress tee /var/db/ingress/repos/latest.doc << EOF > /dev/null
-        89d0233560e4ba181d73143fc25248b407120e09
-        EOF
 
 1.  Get a copy of the git ports repo for the `freshports` jail:
 
@@ -302,4 +290,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         git clone https://git.FreeBSD.org/ports.git /jails/freshports/usr/ports
 
 
-This FreshPorts instance should now be running
+This FreshPorts instance should now be running - but no commit processing is occuring. Next, 
+you'll need to [extract and set repo starting points](LastCommit.md). Later, you'll need to enable
+various periodic scripts and daemons.
