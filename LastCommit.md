@@ -50,6 +50,10 @@ One by one, let's get the data we need:
 
 #### head
 
+NOTE the use of sorting by `id` to ensure proper ordering when the `commit_date` values are equal. Sure, this
+doesn't work if you process the commits out of date. Also, this is a starting point. Attempts to process same commit
+twice will not break the system.
+
     freshports.org=# select CL.id, CL.message_id, CL.commit_date, SB.branch_name
       from commit_log CL, commit_log_branches CLB, system_branch SB
      where CLB.commit_log_id = CL.id 
@@ -105,7 +109,7 @@ One by one, let's get the data we need:
     
     freshports.org=# 
 
-We 
+We don't go back farther than `2021Q2` because that's when `git` started. This step is concerned only with `git` commits.
 
 ### NOTE: above data is incomplete.
 
@@ -120,28 +124,47 @@ These commands set the value in the respective repos.
 
 Leave the `PostgreSQL` jail and enter the `ingress` jail.
 
-$ sudo jexec $INGRESS_JAIL
-root@x8dtu-ingress01:/ # su -l ingress
-$ bash
+    $ sudo jexec $INGRESS_JAIL
+    root@x8dtu-ingress01:/ # su -l ingress
+    $ bash
+
+The following commands are derived from https://news.freshports.org/2021/06/27/putting-the-new-git-delta-sh-into-use-on-devgit-freshports-org/
 
 ### src
 
-[ingress@x8dtu-ingress01 ~]$ cd repos/src
-[ingress@x8dtu-ingress01 ~/repos/src]$ git tag -m "last known commit of " -f freshports/origin/main 007c2463d6d017ad5321d5cd2bc500e577d22196
-[ingress@x8dtu-ingress01 ~/repos/src]$ git rev-parse --verify freshports/origin/main^{}
-007c2463d6d017ad5321d5cd2bc500e577d22196
+    [ingress@x8dtu-ingress01 ~]$ cd repos/src
+    [ingress@x8dtu-ingress01 ~/repos/src]$ git tag -m "last known commit of " -f freshports/origin/main 007c2463d6d017ad5321d5cd2bc500e577d22196
+    [ingress@x8dtu-ingress01 ~/repos/src]$ git rev-parse --verify freshports/origin/main^{}
+    007c2463d6d017ad5321d5cd2bc500e577d22196
 
-### doc
+    ### doc
 
-[ingress@x8dtu-ingress01 ~/repos/src]$ cd ../doc
-[ingress@x8dtu-ingress01 ~/repos/doc]$ git tag -m "last known commit of " -f freshports/origin/main 79acd015e3ca9188b9b2342276cd4a6bd45ff6ad
-[ingress@x8dtu-ingress01 ~/repos/doc]$ git rev-parse --verify freshports/origin/main^{}
-79acd015e3ca9188b9b2342276cd4a6bd45ff6ad
+    [ingress@x8dtu-ingress01 ~/repos/src]$ cd ../doc
+    [ingress@x8dtu-ingress01 ~/repos/doc]$ git tag -m "last known commit of " -f freshports/origin/main 79acd015e3ca9188b9b2342276cd4a6bd45ff6ad
+    [ingress@x8dtu-ingress01 ~/repos/doc]$ git rev-parse --verify freshports/origin/main^{}
+    79acd015e3ca9188b9b2342276cd4a6bd45ff6ad
 
 ### ports
 
+#### main
 
+    [ingress@x8dtu-ingress01 ~/repos/doc]$ cd ../ports
+    [ingress@x8dtu-ingress01 ~/repos/ports]$ git tag -m "last known commit of " -f freshports/origin/main 724df9e52627ee6e37f0ec7e0269e91a8f84b846
+    [ingress@x8dtu-ingress01 ~/repos/ports]$ git rev-parse --verify freshports/origin/main^{}
+    724df9e52627ee6e37f0ec7e0269e91a8f84b846
 
-# The following commands are derived from https://news.freshports.org/2021/06/27/putting-the-new-git-delta-sh-into-use-on-devgit-freshports-org/
+#### 2021Q3
 
+    [ingress@x8dtu-ingress01 ~/repos/ports]$ git tag -m "last known commit of " -f freshports/origin/2021Q3 864d56077f8d0028d91f69cdc71e7d8bd05cfd47
+    [ingress@x8dtu-ingress01 ~/repos/ports]$ git rev-parse --verify freshports/origin/2021Q3^{}
+    864d56077f8d0028d91f69cdc71e7d8bd05cfd47
 
+#### 2021Q2
+
+    [ingress@x8dtu-ingress01 ~/repos/ports]$ git tag -m "last known commit of " -f freshports/origin/2021Q2 d1da14bab7a800be62786aeb321b781179ea8b3f
+    [ingress@x8dtu-ingress01 ~/repos/ports]$ git rev-parse --verify freshports/origin/2021Q2^{}
+    d1da14bab7a800be62786aeb321b781179ea8b3f
+
+# Ready to go
+
+Now we should be ready to start processing commits.
