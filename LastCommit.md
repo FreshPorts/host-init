@@ -48,12 +48,65 @@ One by one, let's get the data we need:
 
 ### ports
 
-    freshports.org=# select id, message_id, commit_date from commit_log where repo_id = 7 order by commit_date desc limit 1;
-       id   |                message_id                |      commit_date       
-    --------+------------------------------------------+------------------------
-     868452 | a1b1b9acaa2bd45afda8d0da4a9ad08e8a483781 | 2021-09-18 00:51:57+00
-    (1 row)
+#### head
+
+    freshports.org=# select CL.id, CL.message_id, CL.commit_date, SB.branch_name
+      from commit_log CL, commit_log_branches CLB, system_branch SB
+     where CLB.commit_log_id = CL.id 
+       and CLB.branch_id     = SB.id
+       and CL.repo_id        = 7
+       and SB.branch_name    = 'head'
+    order by CL.commit_date DESC , CL.id DESC limit 4;
+       id   |                message_id                |      commit_date       | branch_name 
+    --------+------------------------------------------+------------------------+-------------
+     868450 | 724df9e52627ee6e37f0ec7e0269e91a8f84b846 | 2021-09-18 00:49:13+00 | head
+     868449 | f2297d3e29d1ea3d04bf47ede23ab9fcb5e87b78 | 2021-09-18 00:49:12+00 | head
+     868448 | ff5485f557eb56cf773b92bdbf64cdc6104dbd6e | 2021-09-18 00:49:12+00 | head
+     868447 | dbc5f433f85804a16c00019d2994e98337c0ba3d | 2021-09-18 00:49:12+00 | head
+    (4 rows)
     
+    freshports.org=# 
+
+#### 2021Q3
+
+    freshports.org=# select CL.id, CL.message_id, CL.commit_date, SB.branch_name
+      from commit_log CL, commit_log_branches CLB, system_branch SB
+     where CLB.commit_log_id = CL.id 
+       and CLB.branch_id     = SB.id
+       and CL.repo_id        = 7
+       and SB.branch_name    = '2021Q3'
+    order by CL.commit_date DESC , CL.id DESC limit 4;
+       id   |                message_id                |      commit_date       | branch_name 
+    --------+------------------------------------------+------------------------+-------------
+     868453 | 864d56077f8d0028d91f69cdc71e7d8bd05cfd47 | 2021-09-18 00:51:57+00 | 2021Q3
+     868452 | a1b1b9acaa2bd45afda8d0da4a9ad08e8a483781 | 2021-09-18 00:51:57+00 | 2021Q3
+     868451 | df465b54f4cd6f45eb2225f216bc208780094d71 | 2021-09-18 00:51:56+00 | 2021Q3
+     868394 | 63c152f423a2e475ee380814fb73a718ed0d0703 | 2021-09-17 17:46:47+00 | 2021Q3
+    (4 rows)
+    
+    freshports.org=# 
+
+#### 2021Q2
+
+    freshports.org=# select CL.id, CL.message_id, CL.commit_date, SB.branch_name
+      from commit_log CL, commit_log_branches CLB, system_branch SB
+     where CLB.commit_log_id = CL.id 
+       and CLB.branch_id     = SB.id
+       and CL.repo_id        = 7
+       and SB.branch_name    = '2021Q2'
+    order by CL.commit_date DESC , CL.id DESC limit 4;
+       id   |                message_id                |      commit_date       | branch_name 
+    --------+------------------------------------------+------------------------+-------------
+     859416 | d1da14bab7a800be62786aeb321b781179ea8b3f | 2021-07-03 10:01:24+00 | 2021Q2
+     859415 | bf299f1b74f55645289b5cf199d7272c1fe8bf30 | 2021-06-30 20:12:24+00 | 2021Q2
+     859414 | 65b0517571c5ed63a287b6e722708f7f13bf66f0 | 2021-06-30 12:48:48+00 | 2021Q2
+     859413 | cb3b365038fcaee997eb9e4006a7e2bfed6e5ab0 | 2021-06-30 08:56:01+00 | 2021Q2
+    (4 rows)
+    
+    freshports.org=# 
+
+We 
+
 ### NOTE: above data is incomplete.
 
 The ports information needs a commit from each branch, as [found in the code](https://github.com/FreshPorts/git_proc_commit/blob/master/git-to-freshports/git-delta.sh#L82):
