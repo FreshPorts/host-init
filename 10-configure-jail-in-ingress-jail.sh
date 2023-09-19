@@ -121,7 +121,6 @@ sendmail_enable="NO"
 sendmail_submit_enable="NO"
 sendmail_outbound_enable="NO"
 sendmail_msp_queue_enable="NO"
-zfs_enable="YES"
 EOF
 
 jexec ${INGRESS_JAIL} service jail start
