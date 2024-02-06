@@ -7,8 +7,8 @@ It uses [mkjail](https://github.com/mkjail/mkjail), now a [FreeBSD port](https:/
 ## Before running the scripts
 
 * add the A and PTR records for the new hosts
-* add the grant permissions for TXT records for Let's Encrypt
-* create the certs
+* add the grant permissions for TXT records for Let's Encrypt (if you're going to issue certs for the website)
+* create the website cert
 * name them after the host which will be used to access this FreshPorts host
 * Follow the [Ansible.md](Ansible.md) instructions to prepare the hosts
 
