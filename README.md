@@ -9,6 +9,9 @@ It uses [mkjail](https://github.com/mkjail/mkjail), now a [FreeBSD port](https:/
 * add the A and PTR records for the new hosts
 * add the grant permissions for TXT records for Let's Encrypt (if you're going to issue certs for the website)
 * create the website cert
+  ** if your hostname will be `dvl.freshports.org`, you'll probably have two jails:
+  *** dvl-ingress01
+  *** dvl-nginx01 (this one needs a cert for `dvl.freshports.org`)
 * name them after the host which will be used to access this FreshPorts host
 * Follow the [Ansible.md](Ansible.md) instructions to prepare the hosts
 
