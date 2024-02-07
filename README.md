@@ -42,7 +42,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1. Start running the configuration scripts
 
-        cd ~/src/host-init
+        cd ~/src/host-init (or wherever you checked it out)
 
         sudo ./01-jail-fileset-initialize.sh
 
