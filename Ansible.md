@@ -27,7 +27,6 @@ NOTE: the jail can be named anything you want. `r720-02-nginx01` is used only by
 
     svn cp TEMPLATE-freshports-nginx      r720-02-freshports-nginx01
     svn cp TEMPLATE-freshports-ingress    r720-02-freshports-ingress01
-    svn cp TEMPLATE-freshports-mx-ingress r720-02-freshports-mx-ingress01
 
 Adjust values contained therein
 
@@ -61,7 +60,6 @@ in the group name):
     [r720_02_int_unixathome_org_jails]
     r720-02-freshports-nginx01
     r720-02-freshports-ingress01
-    r720-02-freshports-mx-ingress01
 
 ## Add this to group_vars
 
@@ -71,7 +69,6 @@ This will go into `/etc/hosts` on the jail host - this is carried out by the
     etc_hosts:
     - "127.163.0.10  aws-1.freshports-ingress01"
     - "127.163.0.80  aws-1.freshports-nginx01"
-    - "127.163.0.25  aws-1.freshports-mx-ingress04"
 
 
 Based on the group name used above, create this file:
