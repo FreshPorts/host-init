@@ -4,11 +4,10 @@
 #
 INGRESS_JAIL="ingress01"
 WEB_JAIL="nginx01"
-PG_JAIL="pg01"
+PG_JAIL="pg01" # if you don't want this to create a PostgreSQL jail, leave this blank
 
 # the file name for the certficiate in the jail. Don't include .cer at the end
 # usually, this is something close to the hostname
-INGRESS_JAIL_CERT="${INGRESS_JAIL}.int.unixathome.org"
 WEB_JAIL_CERT="${WEB_JAIL}.int.unixathome.org"
 PG_JAIL_CERT="${PG_JAIL}.int.unixathome.org"
 

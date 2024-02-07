@@ -28,12 +28,6 @@ done
 
 # anvil configuration
 
-if [ ! -z ${INGRESS_JAIL} ] ; then
-  sed -i '' -e "s/%%MYCERTS%%/${INGRESS_JAIL_CERT}/g"                      ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
-  sed -i '' -e "s/%%SERVICES_RESTART%%/SERVICES_RESTART=""/g"              ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
-  sed -i '' -e "s/%%SERVICES_RELOAD%%//g"                                  ${jailroot}/${INGRESS_JAIL}/usr/local/etc/anvil/cert-puller.conf
-fi
-
 if [ ! -z ${WEB_JAIL} ] ; then
   sed -i '' -e "s/%%MYCERTS%%/${WEB_JAIL_CERT}/g"                          ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
   sed -i '' -e "s/%%SERVICES_RESTART%%//g"                                 ${jailroot}/${WEB_JAIL}/usr/local/etc/anvil/cert-puller.conf
