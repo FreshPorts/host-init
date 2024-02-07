@@ -12,6 +12,7 @@ It uses [mkjail](https://github.com/mkjail/mkjail), now a [FreeBSD port](https:/
   * if your hostname will be `dvl.freshports.org`, you'll probably have two jails:
     * dvl-ingress01
     * dvl-nginx01 (note the certificate file needs to have the same name as the jail + whatever hostname is used to get to that website - e.g `dvl.freshports.org`)
+    * e.g. [acme@certs ~]$ acme.sh --issue --force --dns dns_nsupdate -d dvl-ingress01.int.unixathome.org -d dvl.freshports.org -k 4096 --server letsencrypt 
   * name them after the host which will be used to access this FreshPorts host
 * Follow the [Ansible.md](Ansible.md) instructions to prepare the hosts
 
