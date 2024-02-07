@@ -94,9 +94,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
      1. For ingress hosts:
 
             # The following is run on the jail host
-            
-            . /usr/local/etc/host-init/jail-vars.sh
-            
+
             ansible-playbook freshports-ingress-git.yml --limit=x8dtu-freshports-ingress01
 
      1. For nginx hosts:
