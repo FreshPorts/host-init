@@ -5,11 +5,11 @@
 # fix /etc/rc.d/jail so it can run at boot time.
 sed -i '' -e "s|# KEYWORD: nojail shutdown|# KEYWORD: shutdown|g" ${jailroot}/$jail/${INGRESS_JAIL}/etc/rc.d/jail
 
-jexec ${INGRESS_JAIL} zfs set mountpoint=/jails         main_tank/freshports/jailed/${INGRESS_JAIL}/jails
-jexec ${INGRESS_JAIL} zfs set mountpoint=/var/db/mkjail main_tank/freshports/jailed/${INGRESS_JAIL}/mkjail
+jexec ${INGRESS_JAIL} zfs set mountpoint=/jails         ${datazpool}/freshports/jailed/${INGRESS_JAIL}/jails
+jexec ${INGRESS_JAIL} zfs set mountpoint=/var/db/mkjail ${datazpool}/freshports/jailed/${INGRESS_JAIL}/mkjail
 
-jexec ${INGRESS_JAIL} zfs mount main_tank/freshports/jailed/${INGRESS_JAIL}/jails
-jexec ${INGRESS_JAIL} zfs mount main_tank/freshports/jailed/${INGRESS_JAIL}/mkjail
+jexec ${INGRESS_JAIL} zfs mount ${datazpool}/freshports/jailed/${INGRESS_JAIL}/jails
+jexec ${INGRESS_JAIL} zfs mount ${datazpool}/freshports/jailed/${INGRESS_JAIL}/mkjail
 
 jexec ${INGRESS_JAIL} pkg install -y mkjail
 

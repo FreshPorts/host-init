@@ -1,4 +1,4 @@
-#!/bin/sh -x
+
 
 . /usr/local/etc/host-init/jail-vars.sh
 
@@ -56,20 +56,20 @@ done
 
 # anvil configuration
 
-zfs set canmount=off                                             main_tank/freshports/${INGRESS_JAIL}/var/db/freshports
-zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/freshports main_tank/freshports/${INGRESS_JAIL}/var/db/freshports
+zfs set canmount=off                                             ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports
+zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/freshports ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports
 
-#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html
-#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/freshports/cache/spooling
-#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/freshports/message-queues
-#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/freshports/repos
+#zfs inherit mountpoint ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html
+#zfs inherit mountpoint ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/spooling
+#zfs inherit mountpoint ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/message-queues
+#zfs inherit mountpoint ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/repos
 
 
-zfs set canmount=off                                             main_tank/freshports/${INGRESS_JAIL}/var/db/ingress
-zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/ingress    main_tank/freshports/${INGRESS_JAIL}/var/db/ingress
+zfs set canmount=off                                             ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress
+zfs set mountpoint=${jailroot}/${INGRESS_JAIL}/var/db/ingress    ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress
 
-#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/ingress/message-queues
-#zfs inherit mountpoint main_tank/freshports/${INGRESS_JAIL}/var/db/ingress/repos
+#zfs inherit mountpoint ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/message-queues
+#zfs inherit mountpoint ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/repos
 
 
 # aliases for dma - make sure mail for root gets out
