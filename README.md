@@ -30,7 +30,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         cd ~/src
         git clone https://github.com/FreshPorts/host-init
         cd host-init
-        sudo mkdir /usr/local/etc/host-init
+        sudo mkdir -p /usr/local/etc/host-init
         sudo cp -i jail-vars.sh.sample /usr/local/etc/host-init/jail-vars.sh
         # adjust the ZPOOL and JAILROOT to your requirements in jail-vars.sh - also set values for the _CERT variables
 
@@ -108,7 +108,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             #
             # key for the nginx jail
             #
-            sudo jexec $WEB_JAIL mkdir /usr/local/etc/ssl
+            sudo jexec $WEB_JAIL mkdir -p /usr/local/etc/ssl
             sudo jexec $WEB_JAIL touch /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
             sudo jexec $WEB_JAIL chmod 440 /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
             sudo jexec $WEB_JAIL chown root:www /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
