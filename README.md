@@ -78,15 +78,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             
             . /usr/local/etc/host-init/jail-vars.sh
             
-            #
-            # key for the ingress jail
-            #
-            # we use 770 because the postgres user is created later by the playbook
-            sudo jexec $PG_JAIL mkdir /usr/local/etc/ssl
-            sudo jexec $PG_JAIL touch /usr/local/etc/ssl/${PG_JAIL_CERT}.key
-            sudo jexec $PG_JAIL chmod 440 /usr/local/etc/ssl/${PG_JAIL_CERT}.key
-            sudo jexec $PG_JAIL chown root:770 /usr/local/etc/ssl/${PG_JAIL_CERT}.key
-
             # copy the cert key into that file
             sudo jexec $PG_JAIL sudoedit /usr/local/etc/ssl/${PG_JAIL_CERT}.key
 
@@ -103,22 +94,9 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
      1. For ingress hosts:
 
             # The following is run on the jail host
-            # INGRESS_JAIL_CERT is defined in /usr/local/etc/host-init/jail-vars.sh
-            # bring those variables into your shell:
             
             . /usr/local/etc/host-init/jail-vars.sh
             
-            #
-            # key for the ingress jail
-            #
-            sudo jexec $INGRESS_JAIL mkdir /usr/local/etc/ssl
-            sudo jexec $INGRESS_JAIL touch /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
-            sudo jexec $INGRESS_JAIL chmod 440 /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
-            sudo jexec $INGRESS_JAIL chown root:wheel /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
-
-            # copy the cert key into that file
-            sudo jexec $INGRESS_JAIL sudoedit /usr/local/etc/ssl/${INGRESS_JAIL_CERT}.key
-
             ansible-playbook freshports-ingress-git.yml --limit=x8dtu-freshports-ingress01
 
      1. For nginx hosts:
