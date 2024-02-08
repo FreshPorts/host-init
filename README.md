@@ -282,9 +282,9 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 
 
-1.  Get a copy of the git ports repo for the `freshports` jail:
+1.  Get a copy of the git ports repo for the `freshports` jail. This can be owned by `root`, all operations are performed as root from within the jail.
 
-        jexec $INGRESS_JAIL
+        sudo jexec $INGRESS_JAIL
         git clone https://git.FreeBSD.org/ports.git /jails/freshports/usr/ports
 
 
