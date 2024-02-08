@@ -208,6 +208,18 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # this needs to be done after the ingress user is created
         sudo jexec ${INGRESS_JAIL} chown ingress:ingress /var/db/ingress/repos
 
+    #### Useful at times, not part of the setup.
+
+   This section shows how to umount what we just created, check the underlying directories, then mount.
+
+        sudo zfs umount ${datazpool}/freshports/${INGRESS_JAIL}/ports
+        sudo zfs umount ${datazpool}/freshports/${INGRESS_JAIL}/repos
+
+        # just to be sure we're not overlaying something unintenionally
+        ls -l /jails/${INGRESS_JAIL}/var/db/ingress/repos /jails/${INGRESS_JAIL}/jails/freshports/usr/ports
+
+        sudo zfs  mount ${datazpool}/freshports/${INGRESS_JAIL}/ports
+        sudo zfs  mount ${datazpool}/freshports/${INGRESS_JAIL}/repos
 
     #### postgresql node
 
@@ -224,16 +236,6 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         sudo mv /jails/${PG_JAIL}/var/db/postgres.old/* /jails/${PG_JAIL}/var/db/postgres
         sudo jexec ${PG_JAIL} service postgresql start
 
-    Useful at times, not part of the setup.
-
-        sudo zfs umount ${datazpool}/freshports/${INGRESS_JAIL}/ports
-        sudo zfs umount ${datazpool}/freshports/${INGRESS_JAIL}/repos
-
-        # just to be sure we're not overlaying something unintenionally
-        ls -l /jails/${INGRESS_JAIL}/var/db/ingress/repos /jails/${INGRESS_JAIL}/jails/freshports/usr/ports
-
-        sudo zfs  mount ${datazpool}/freshports/${INGRESS_JAIL}/ports
-        sudo zfs  mount ${datazpool}/freshports/${INGRESS_JAIL}/repos
 
 1.  Create the database
 
