@@ -125,7 +125,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             sudo jexec $WEB_JAIL sudoedit /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
 
             # adjust `/etc/jail.conf.d/jail-nginx` and enable the ZFS filesystems
-            ansible-playbook freshports-website-git.yml --limit=x8dtu-freshports-nginx01
+            ansible-playbook freshports-website.yml --limit=x8dtu-freshports-nginx01
 
 1. With the required packages installed, try fetching certs etc:
 
