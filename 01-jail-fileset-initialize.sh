@@ -28,19 +28,23 @@ then
   zfs create -p                                       ${datazpool}/freshports/jailed/${INGRESS_JAIL}/jails
   zfs create -p                                       ${datazpool}/freshports/jailed/${INGRESS_JAIL}/mkjail
   zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${INGRESS_JAIL}
-  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html
-  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/spooling
-  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/message-queues
-  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/repos
-  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/message-queues
-  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/var/db/ingress/repos
-  zfs snapshot ${datazpool}/freshports/${INGRESS_JAIL}/var/db/freshports/cache/html@empty
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/freshports/cache/html
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/freshports/cache/spooling
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/freshports/message-queues
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/freshports/message-queues/archive
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/ingress/latest_commits
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/ingress/message-queues
+  zfs create -p                                       ${datazpool}/freshports/${INGRESS_JAIL}/ingress/repos
+  zfs snapshot ${datazpool}/freshports/${INGRESS_JAIL}/freshports/cache/html@empty
 fi
 
 # One day, you might ask, why put var/db/freshports in the filesystem name? Why not shorter?
 # Things change. Today we are only caching for the freshports user. Tomorrow, it might be another location.
 # Keep it like this, it's a few empty filesystems, but the hierarchy is there.
 zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${WEB_JAIL}/var/db/freshports/cache
+zfs create -p -o canmount=noauto -o mountpoint=none ${datazpool}/freshports/${WEB_JAIL}/www/freshports
+zfs create -p -o canmount=noauto -o mountpoint=${jailroot}/${WEB_JAIL}/usr/local/www/freshports  ${datazpool}/freshports/${WEB_JAIL}/www/freshports
+zfs create -p -o canmount=noauto -o mountpoint=${jailroot}/${WEB_JAIL}/usr/local/www/freshsource ${datazpool}/freshports/${WEB_JAIL}/www/freshsource
 
 if [ ! -z "${WEB_JAIL}" ]
 then

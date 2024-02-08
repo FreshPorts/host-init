@@ -2,6 +2,8 @@
 
 . /usr/local/etc/host-init/jail-vars.sh
 
+exit - this needs to be rewritten to use git and checkout all three repos
+
 # check out head if it does not already exist
 if [ ! -d "${jailroot}/${INGRESS_JAIL}/var/db/freshports/ports-jail/var/db/repos/PORTS-head" ]
 then

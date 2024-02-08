@@ -44,7 +44,7 @@ JAILROOT="/jails"
 SETS="base"
 EOF
 
-jexec ${INGRESS_JAIL} mkjail create -a amd64 -j freshports -v 13.0-RELEASE
+jexec ${INGRESS_JAIL} mkjail create -a amd64 -j freshports -v $VERSION-RELEASE
 
 jexec ${INGRESS_JAIL} sysrc jail_enable="YES"
 
@@ -81,7 +81,7 @@ echo "FreeBSD: { enabled: no }" > ${jailroot}/${INGRESS_JAIL}/jails/freshports/u
 
 cat << EOF > ${jailroot}/${INGRESS_JAIL}/jails/freshports/usr/local/etc/pkg/repos/local.conf
 local: {
-   url: "pkg+http://fedex.unixathome.org/packages/13amd64-default-primary/"
+   url: "pkg+http://fedex.unixathome.org/packages/${DEFAULT_REPO_TREE}/"
    mirror_type: "srv",
    signature_type: "PUBKEY",
    pubkey: "/etc/ssl/slocum.unixathome.org.cert",   
@@ -110,7 +110,7 @@ EOF
 
 cat << EOF > ${jailroot}/${INGRESS_JAIL}/jails/freshports/etc/resolv.conf
 search unixathome.org int.unixathome.org
-nameserver 127.163.0.53
+nameserver 10.55.0.1
 EOF
  
  

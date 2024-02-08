@@ -14,9 +14,11 @@ PG_JAIL_CERT="${PG_JAIL}.int.unixathome.org"
 # the repo tree to be used by each jail.
 # they are not always the same.
 DEFAULT_REPO_TREE="130amd64-default-primary"
-eval ${INGRESS_JAIL}_REPO_TREE="${DEFAULT_REPO_TREE}"
-eval ${WEB_JAIL}_REPO_TREE="${DEFAULT_REPO_TREE}"
-eval ${PG_JAIL}_REPO_TREE="${DEFAULT_REPO_TREE}"
+
+# see 05-prepare-jails-for-ansible.sh for REPO_TREE - the following three lines are not necessary in this file
+#eval ${INGRESS_JAIL}_REPO_TREE="${DEFAULT_REPO_TREE}"
+#eval ${WEB_JAIL}_REPO_TREE="${DEFAULT_REPO_TREE}"
+#eval ${PG_JAIL}_REPO_TREE="${DEFAULT_REPO_TREE}"
 
 # list of jails
 #
@@ -24,6 +26,9 @@ eval ${PG_JAIL}_REPO_TREE="${DEFAULT_REPO_TREE}"
 # But other scripts might fail, but fail gracefully
 #
 JAILS="$INGRESS_JAIL $WEB_JAIL $PG_JAIL"
+
+# These are the jails which can use a certificate
+CERT_JAILS="$WEB_JAIL $PG_JAIL"
 
 # list of filesets in WEB_JAIL jail used for caching
 # see also https://git.langille.org/FreshPorts/helper_scripts/src/branch/master/website-clear-all-cache.sample
