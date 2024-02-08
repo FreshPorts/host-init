@@ -56,7 +56,14 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # This creates the jails which will be later configured by Ansible
         sudo ./03-create-jails.sh
 
-        sudo cp -i jail.conf /etc/jail.conf
+	# Take the jails you're using, and copy them over
+	# you might also have to add this to /etc/rc.conf
+	# jail_enable="YES"
+	# jail_reverse_stop="YES"
+	# jail_list="jail-ingressjail-nginx jail-pg"
+	# jail_sysvipc_allow="YES" # For PostgreSQL
+	#
+        sudo cp -i jail-ingress.conf jail-nginx.conf jail-pg.conf /etc/jail.conf.d/
 
 1. Start the jails
 
@@ -117,8 +124,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
             # copy the cert key into that file
             sudo jexec $WEB_JAIL sudoedit /usr/local/etc/ssl/${WEB_JAIL_CERT}.key
 
-            # adjust `/etc/jail.conf` and enable the ZFS filesystems
-            ansible-playbook freshports-website.yml --limit=x8dtu-freshports-nginx01
+            # adjust `/etc/jail.conf.d/jail-nginx` and enable the ZFS filesystems
+            ansible-playbook freshports-website-git.yml --limit=x8dtu-freshports-nginx01
 
 1. With the required packages installed, try fetching certs etc:
 
@@ -138,12 +145,12 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         sudo service jail stop
  
-        sudoedit /etc/jail.conf
+        sudoedit /etc/jail.conf.d/jail-*.conf
         # uncomment things which say commented out until after step 10
 
 1.  Start the jails again
 
-        sudo service jail start
+        sudo service jail start (or just specify the jails you want to stop)
 
 
 1.  Create the ~freshports/cache directories on the webserver
@@ -158,6 +165,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
 1.  Uncomment the remaining items in `/etc/jail.conf`. Look for `commented out until after step 13`:
 
+
+	# NOTE: last time I did this, there were no such items.
         sudo service jail stop
         sudoedit /etc/jail.conf
         sudo service jail start
@@ -188,15 +197,19 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
     For creation:
 
-        sudo zfs create -o canmount=off                                                 zroot/freshports
-        sudo zfs create -o canmount=off                                                 zroot/freshports/ingress01
-        sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/var/db/ingress/repos       zroot/freshports/ingress01/repos
-        sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/jails/freshports/usr/ports zroot/freshports/ingress01/ports
+	* ingress node
+
+        sudo zfs create -o canmount=off                                                 ${datazpool}/freshports
+        sudo zfs create -o canmount=off                                                 ${datazpool}/freshports/${INGRESS_JAIL}
+        sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/var/db/ingress/repos       ${datazpool}/freshports/${INGRESS_JAIL}/repos
+        sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/jails/freshports/usr/ports ${datazpool}/freshports/${INGRESS_JAIL}/ports
 
         # these need non root:wheel permissions
         # this needs to be done after the ingress user is created
-        jexec ${INGRESS_JAIL} chown ingress:ingress /var/db/ingress/repos
+        sudo jexec ${INGRESS_JAIL} chown ingress:ingress /var/db/ingress/repos
 
+
+	* postgresql node
 
         # before you create this, you'll want to move the old one away
         sudo jexec ${PG_JAIL} service postgresql stop
@@ -204,8 +217,8 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
         # this needs to be done after postgresql server is installed but before the initdb
         # that may be tricky because 
-        sudo zfs create -o canmount=off                                 zroot/freshports/${PG_JAIL}
-        sudo zfs create -o mountpoint=/jails/${PG_JAIL}/var/db/postgres zroot/freshports/${PG_JAIL}/postgres
+        sudo zfs create -o canmount=off                                 ${datazpool}/freshports/${PG_JAIL}
+        sudo zfs create -o mountpoint=/jails/${PG_JAIL}/var/db/postgres ${datazpool}/freshports/${PG_JAIL}/postgres
         sudo jexec ${PG_JAIL} chown postgres:postgres /var/db/postgres
         
         sudo mv /jails/${PG_JAIL}/var/db/postgres.old/* /jails/${PG_JAIL}/var/db/postgres
@@ -213,14 +226,14 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 
     Useful at times, not part of the setup.
 
-        sudo zfs umount zroot/freshports/${INGRESS_JAIL}/ports
-        sudo zfs umount zroot/freshports/${INGRESS_JAIL}/repos
+        sudo zfs umount ${datazpool}/freshports/${INGRESS_JAIL}/ports
+        sudo zfs umount ${datazpool}/freshports/${INGRESS_JAIL}/repos
 
-        # just to be sure we're not overlaing something unintenionally
+        # just to be sure we're not overlaying something unintenionally
         ls -l /jails/${INGRESS_JAIL}/var/db/ingress/repos /jails/${INGRESS_JAIL}/jails/freshports/usr/ports
 
-        sudo zfs  mount zroot/freshports/${INGRESS_JAIL}/ports
-        sudo zfs  mount zroot/freshports/${INGRESS_JAIL}/repos
+        sudo zfs  mount ${datazpool}/freshports/${INGRESS_JAIL}/ports
+        sudo zfs  mount ${datazpool}/freshports/${INGRESS_JAIL}/repos
 
 1.  Create the database
 
