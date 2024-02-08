@@ -202,11 +202,14 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
     	sudo zfs create -o canmount=off                                                 ${datazpool}/freshports
     	sudo zfs create -o canmount=off                                                 ${datazpool}/freshports/${INGRESS_JAIL}
     	sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/var/db/ingress/repos       ${datazpool}/freshports/${INGRESS_JAIL}/repos
+    	sudo zfs create -o                                                              ${datazpool}/freshports/${INGRESS_JAIL}/repos/docs
+    	sudo zfs create -o                                                              ${datazpool}/freshports/${INGRESS_JAIL}/repos/ports
+    	sudo zfs create -o                                                              ${datazpool}/freshports/${INGRESS_JAIL}/repos/src
     	sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/jails/freshports/usr/ports ${datazpool}/freshports/${INGRESS_JAIL}/ports
 
         # these need non root:wheel permissions
         # this needs to be done after the ingress user is created
-        sudo jexec ${INGRESS_JAIL} chown ingress:ingress /var/db/ingress/repos
+        sudo jexec ${INGRESS_JAIL} chown -R ingress:ingress /var/db/ingress/repos
 
     #### Useful at times, not part of the setup.
 
