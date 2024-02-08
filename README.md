@@ -56,13 +56,13 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         # This creates the jails which will be later configured by Ansible
         sudo ./03-create-jails.sh
 
-	# Take the jails you're using, and copy them over
-	# you might also have to add this to /etc/rc.conf
-	# jail_enable="YES"
-	# jail_reverse_stop="YES"
-	# jail_list="jail-ingressjail-nginx jail-pg"
-	# jail_sysvipc_allow="YES" # For PostgreSQL
-	#
+        # Take the jails you're using, and copy them over
+        # you might also have to add this to /etc/rc.conf
+        # jail_enable="YES"
+        # jail_reverse_stop="YES"
+        # jail_list="jail-ingressjail-nginx jail-pg"
+        # jail_sysvipc_allow="YES" # For PostgreSQL
+        #
         sudo cp -i jail-ingress.conf jail-nginx.conf jail-pg.conf /etc/jail.conf.d/
 
 1. Start the jails
@@ -166,7 +166,7 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 1.  Uncomment the remaining items in `/etc/jail.conf`. Look for `commented out until after step 13`:
 
 
-	# NOTE: last time I did this, there were no such items.
+        # NOTE: last time I did this, there were no such items.
         sudo service jail stop
         sudoedit /etc/jail.conf
         sudo service jail start
@@ -190,26 +190,26 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
         
 1.  Special file systems for FreshPorts
 
-    ingress node
+    #### ingress node
 
     * `/var/db/ingress/repos`       (about 10 GB)
     * `/jails/freshports/usr/ports` (about 50 GB)
 
     For creation:
 
-	* ingress node
+    #### ingress node
 
-        sudo zfs create -o canmount=off                                                 ${datazpool}/freshports
-        sudo zfs create -o canmount=off                                                 ${datazpool}/freshports/${INGRESS_JAIL}
-        sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/var/db/ingress/repos       ${datazpool}/freshports/${INGRESS_JAIL}/repos
-        sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/jails/freshports/usr/ports ${datazpool}/freshports/${INGRESS_JAIL}/ports
+    	sudo zfs create -o canmount=off                                                 ${datazpool}/freshports
+    	sudo zfs create -o canmount=off                                                 ${datazpool}/freshports/${INGRESS_JAIL}
+    	sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/var/db/ingress/repos       ${datazpool}/freshports/${INGRESS_JAIL}/repos
+    	sudo zfs create -o mountpoint=/jails/${INGRESS_JAIL}/jails/freshports/usr/ports ${datazpool}/freshports/${INGRESS_JAIL}/ports
 
         # these need non root:wheel permissions
         # this needs to be done after the ingress user is created
         sudo jexec ${INGRESS_JAIL} chown ingress:ingress /var/db/ingress/repos
 
 
-	* postgresql node
+    #### postgresql node
 
         # before you create this, you'll want to move the old one away
         sudo jexec ${PG_JAIL} service postgresql stop
