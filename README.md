@@ -291,3 +291,51 @@ install the prerequisite packages such as git, unbound, ntpd, etc.
 This FreshPorts instance should now be running - but no commit processing is occuring. Next, 
 you'll need to [extract and set repo starting points](LastCommit.md). Later, you'll need to enable
 various periodic scripts and daemons.
+
+# code checkouts for a development host:
+
+## INGRESS
+
+NOTE: This needs to be done before the ansible scripts install
+the freshports-freshports package - which means this section needs to move up
+in this file.
+
+	sudo mkdir /usr/local/lib/perl5/site_perl/FreshPorts
+	sudo chown -R dvl:dvl /usr/local/lib/perl5/site_perl/FreshPorts
+	ln -s /usr/local/lib/perl5/site_perl/FreshPorts ~/modules
+
+	cd ~/modules
+	svn co svn+ssh://svnusers@svn.int.unixathome.org/freshports-1/ingress/modules/branches/git .
+
+	sudo mkdir /usr/local/libexec/freshports
+	sudo chown -R dvl:dvl /usr/local/libexec/freshports
+	ln -s /usr/local/libexec/freshports ~/scripts
+
+	cd ~/scripts
+	svn co svn+ssh://svnusers@svn.int.unixathome.org/freshports-1/ingress/scripts/branches/git .
+
+	mkdir ~/src/
+	cd ~/src
+	svn co svn+ssh://svnusers@svn.int.unixathome.org/freshports-1/packaging/trunk packaging
+
+	cd packaging
+	see README.txt - run the commands therein - it registers fake packages to
+	avoid having your code overwritten by the real packages.
+
+
+
+## WWW
+
+	sudo mkdir /usr/local/www/freshports
+	sudo chown dvl:dvl /usr/local/www/freshports
+	ln -s /usr/local/www/freshports ~/www
+	cd ~/www
+	git clone git@github.com:FreshPorts/freshports.git .
+
+	mkdir ~/src/
+	cd ~/src
+	svn co svn+ssh://svnusers@svn.int.unixathome.org/freshports-1/packaging/trunk packaging
+
+	cd packaging
+	see README.txt - run the commands therein - it registers fake packages to
+	avoid having your code overwritten by the real packages.
