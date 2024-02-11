@@ -322,6 +322,22 @@ in this file.
 	see README.txt - run the commands therein - it registers fake packages to
 	avoid having your code overwritten by the real packages.
 
+### symlinks you'll need
+	cd ~/modules
+	sudo ln -s /usr/local/etc/freshports/config.pm .
+	sudo ln -s /usr/local/etc/freshports/status.pm .
+
+	cd ~/scripts
+	sudo ln -s /usr/local/etc/freshports/config.sh .
+
+### jail configuration
+
+This configures the jail for extracting port information
+
+	cd ~/scripts/Jail/scripts
+	sudo ./copy-scripts-into-jail.sh /jails/freshports
+	cd /jails/freshports
+	sudo cp -i vars.sh.sample vars.sh
 
 
 ## WWW
