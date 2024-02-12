@@ -355,3 +355,15 @@ This configures the jail for extracting port information
 	cd packaging
 	see README.txt - run the commands therein - it registers fake packages to
 	avoid having your code overwritten by the real packages.
+
+### website configuration
+
+	cd /usr/local/www/freshports/configuration
+	sudo cp -i vhosts.conf.nginx.sample vhosts.conf.nginx
+	sudo cp -i virtualhost-common.conf.sample     /usr/local/etc/freshports/virtualhost-common.conf
+	sudo cp -i virtualhost-common-ssl.conf.sample /usr/local/etc/freshports/virtualhost-common-ssl.conf
+	sudo cp -i freshports.conf.php.sample         /usr/local/etc/freshports/freshports.conf.php
+
+	cd /usr/local/www/freshports/include
+	sudo cp -i common.php.sample          /usr/local/etc/freshports/common.php
+	sudo cp -i constants.local.php.sample /usr/local/etc/freshports/constants.local.php
