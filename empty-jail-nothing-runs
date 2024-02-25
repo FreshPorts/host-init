@@ -1,0 +1,17 @@
+The FreeBSD jail which runs within an ingress node does nothing but extract values
+from Makefile.  This is done mostly via `make -V PORTVERSION` (for example).
+
+We don't need syslog, cron, periodic, etc.
+
+To that end, this is placed in /etc/rc.conf:
+
+cron_enable="NO"
+syslogd_enable="NO"
+sendmail_enable="NO"
+sendmail_submit_enable="NO"
+sendmail_outbound_enable="NO"
+sendmail_msp_queue_enable="NO"
+
+* /usr/ports is updated via git from outside the jail
+* scripts, located in / within the jail, extract the required information
+* pkg is not installed within the jail
